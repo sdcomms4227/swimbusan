@@ -30,19 +30,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>WebContent/META-INF/context.xml</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/FunWeb/WebContent/META-INF/context.xml</locationURI>
-		</link>
-		<link>
 			<name>WebContent/WEB-INF/lib/mysql-connector-java-5.1.39-bin.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/FunWeb/WebContent/WEB-INF/lib/mysql-connector-java-5.1.39-bin.jar</locationURI>
-		</link>
-		<link>
-			<name>WebContent/WEB-INF/lib/tomcat-dbcp-7.0.30.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/pro13/WebContent/WEB-INF/lib/tomcat-dbcp-7.0.30.jar</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
