@@ -6,15 +6,17 @@
   padding-top: 40px;
   padding-bottom: 96px;
   background-color: #f5f5f5;
-  min-height: calc(100vh - 56px - 51px);
+  min-height: calc(100vh - 56px - 43px);
 }
-.form-login {
+
+.loginform {
   width: 100%;
   max-width: 330px;
   padding: 15px;
   margin: auto;
 }
-.form-join {
+
+.joinform {
   width: 100%;
   max-width: 640px;
   margin: auto;
@@ -24,58 +26,55 @@
   position: relative;
   margin-bottom: 1rem;
 }
-
 .form-label-group > input,
 .form-label-group > label {
   height: 3rem;
-  padding: .75rem;
+  padding: 0.75rem;
   text-align: left;
 }
-
 .form-label-group > label {
   position: absolute;
   top: 0;
   left: 0;
   display: block;
   width: 100%;
-  margin-bottom: 0; /* Override default `<label>` margin */
+  margin-bottom: 0;
   line-height: 1.5;
   color: #495057;
   pointer-events: none;
-  cursor: text; /* Match the input under the label */
+  cursor: text;
   border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
+  border-radius: 0.25rem;
+  transition: all 0.1s ease-in-out;
 }
-
 .form-label-group input::-webkit-input-placeholder {
   color: transparent;
 }
-
 .form-label-group input:-ms-input-placeholder {
   color: transparent;
 }
-
 .form-label-group input::-ms-input-placeholder {
   color: transparent;
 }
-
 .form-label-group input::-moz-placeholder {
   color: transparent;
 }
-
 .form-label-group input::placeholder {
   color: transparent;
 }
-
 .form-label-group input:not(:placeholder-shown) {
-  padding-top: 1.25rem;
-  padding-bottom: .25rem;
+  padding-top: 1 0.25rem;
+  padding-bottom: 0.25rem;
 }
-
 .form-label-group input:not(:placeholder-shown) ~ label {
-  padding-top: .25rem;
-  padding-bottom: .25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 12px;
+  color: #777;
+}
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   font-size: 12px;
   color: #777;
 }
@@ -86,41 +85,48 @@
   .form-label-group > label {
     display: none;
   }
+
   .form-label-group input::-ms-input-placeholder {
     color: #777;
   }
 }
-
 /* Fallback for IE
 -------------------------------------------------- */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .form-label-group > label {
     display: none;
   }
+
   .form-label-group input:-ms-input-placeholder {
     color: #777;
   }
 }
-
 /* member custom */
-.form-member .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
-    color: #fff;
-    background-color: #0062cc;
-    border-color: #005cbf;
+.form-member .btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show > .btn-secondary.dropdown-toggle {
+  color: #fff;
+  background-color: #0062cc;
+  border-color: #005cbf;
 }
+
 .section-member .form-label-group:first-of-type {
-	margin-bottom: -1px;
+  margin-bottom: -1px;
 }
 .section-member .form-label-group:first-of-type .form-control {
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
-
 .section-member .form-label-group:last-of-type .form-control {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.section-member .form-label-group:focus-within {
+  z-index: 2;
 }
 
-.section-member .form-label-group:focus-within {
-	z-index: 2;
+.input-group-text {
+  width: 132px;
 }
+
+/*# sourceMappingURL=member.css.map */

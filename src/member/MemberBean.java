@@ -6,13 +6,28 @@ public class MemberBean {
 	private String id;
 	private String pw;
 	private String name;
-	private Timestamp regdate;
-	private int age;
-	private String gender;
 	private String email;
-	private String address;
-	private String tel;
-	private String mtel;
+	private int zipcode;
+	private String address1;
+	private String address2;
+	private String phone;
+	private Timestamp regdate;
+
+	public MemberBean() {
+	}
+
+	public MemberBean(String id, String pw, String name, String email, int zipcode, String address1, String address2, String phone, Timestamp regdate) {
+		super();
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.email = email;
+		this.zipcode = zipcode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.phone = phone;
+		this.regdate = regdate;
+	}
 
 	public String getId() {
 		return id;
@@ -38,30 +53,6 @@ public class MemberBean {
 		this.name = name;
 	}
 
-	public Timestamp getRegdate() {
-		return regdate;
-	}
-
-	public void setRegdate(Timestamp regdate) {
-		this.regdate = regdate;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -70,46 +61,44 @@ public class MemberBean {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
+	public int getZipcode() {
+		return zipcode;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setZipcode(int zipcode) {
+		this.zipcode = zipcode;
 	}
 
-	public String getTel() {
-		return tel;
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
 
-	public String getMtel() {
-		return mtel;
+	public String getAddress2() {
+		return address2;
 	}
 
-	public void setMtel(String mtel) {
-		this.mtel = mtel;
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
-	public MemberBean() {
-
+	public String getPhone() {
+		return phone;
 	}
 
-	public MemberBean(String id, String pw, String name, Timestamp regdate, int age, String gender, String email,
-			String address, String tel, String mtel) {
-		super();
-		this.id = id;
-		this.pw = pw;
-		this.name = name;
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Timestamp getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
-		this.age = age;
-		this.gender = gender;
-		this.email = email;
-		this.address = address;
-		this.tel = tel;
-		this.mtel = mtel;
 	}
+
 }

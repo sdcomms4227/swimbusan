@@ -1,0 +1,37 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+@charset "UTF-8";
+
+* {
+	font-family: 'Nanum Gothic';
+}
+
+/* navigation */
+.nav .nav-link {
+	color: #999;
+	transition: ease-in-out color .15s;
+	&:hover,
+	&.active {
+		color: #007bff;
+	}
+}
+.nav-tel {
+	color: rgba(0, 0, 0, .5);
+	border-color: rgba(0, 0, 0, .1);
+	transition: ease-in-out all .15s;
+	white-space: nowrap;
+}
+
+/* layout */
+header {
+	background-color: #fff;
+}
+footer {
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+	background-color: #504e4e;
+	p {
+		margin-bottom: 0 !important;
+	}
+}
+

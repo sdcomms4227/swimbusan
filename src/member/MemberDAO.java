@@ -11,27 +11,21 @@ import javax.sql.DataSource;
 
 public class MemberDAO {
 
-	Connection con;
+	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
 	
 	private Connection getConnection() throws Exception {
 		Context init = new InitialContext();
-
-		// 커넥션풀 얻기
 		DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/swimbusan");
-
-		// 커넥션풀에 존재하는 커넥션 얻기
-		Connection con = ds.getConnection();
-
-		// 커넥션 반환
-		return con;
+		Connection conn = ds.getConnection();
+		return conn;
 	}
 
 	private void freeResource() {
 		try {
-			if (con != null)
-				con.close();
+			if (conn != null)
+				conn.close();
 			if (pstmt != null)
 				pstmt.close();
 			if (rs != null)
@@ -41,44 +35,29 @@ public class MemberDAO {
 		}
 	}
 
-	// insertMember()메소드 :
-	// 가입할 회원정보들을? MemberBean객체의 각 변수에 저장한 후 매개변수로 전달받아 DB에 INSERT
-
 	public int insertMember(MemberBean memberbean) {
 
-		// 메소드 내부에 선언된 지역변수는 항상 초기화 해야 한다. (전역변수는 초기화 생략가능)
 		String sql = "";
 
-		// 날짜입력시 now() 대신 Timestamp를 사용할 수 있다.
-		// Timestamp ts = new Timestamp(System.currentTimeMills());
 		try {
-			con = getConnection();
-			sql = "insert into member(id,pw,name,regdate,age,gender,email,address,tel,mtel)"
-					+ "values(?,?,?,now(),?,?,?,?,?,?)";
-			pstmt = con.prepareStatement(sql);
+			conn = getConnection();
+			sql = "insert into member values(?,?,?,?,?,?,?,?,now())";
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberbean.getId());
 			pstmt.setString(2, memberbean.getPw());
 			pstmt.setString(3, memberbean.getName());
-			pstmt.setInt(4, memberbean.getAge());
-			pstmt.setString(5, memberbean.getGender());
-			pstmt.setString(6, memberbean.getEmail());
-			pstmt.setString(7, memberbean.getAddress());
-			pstmt.setString(8, memberbean.getTel());
-			pstmt.setString(9, memberbean.getMtel());
+			pstmt.setString(4, memberbean.getEmail());
+			pstmt.setInt(5, memberbean.getZipcode());
+			pstmt.setString(6, memberbean.getAddress1());
+			pstmt.setString(7, memberbean.getAddress2());
+			pstmt.setString(8, memberbean.getPhone());
 
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("insertMember메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
-			try {
-				if (con != null)
-					con.close();
-				if (pstmt != null)
-					pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} // finally
+			freeResource();
+		}
 		
 		return 0;
 
@@ -101,13 +80,13 @@ public class MemberDAO {
 
 		try {
 			// 커넥션풀로부터 커넥션 얻기
-			con = getConnection();
+			conn = getConnection();
 
 			// 매개변수로 전달받은 id에 해당하는 레코드 검색 SQL문 만들기
 			sql = "select * from member where id = ?";
 
 			// SELECT구문을 실행할 PreparedStatement객체 얻기
-			pstmt = con.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 
 			// ? 값 설정
 			pstmt.setString(1, id);
@@ -129,7 +108,7 @@ public class MemberDAO {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("idCheck메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -138,7 +117,7 @@ public class MemberDAO {
 	}// idCheck메소드
 
 	public int userCheck(String id, String pw) {
-		Connection con = null;
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
 		ResultSet rs = null;
@@ -148,9 +127,9 @@ public class MemberDAO {
 						// -1 -> 아이디 틀림
 
 		try {
-			con = getConnection();
+			conn = getConnection();
 			sql = "select * from member where id = ?";
-			pstmt = con.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 
@@ -193,22 +172,21 @@ public class MemberDAO {
 		MemberBean memberbean = new MemberBean();
 		
 		try {
-			con = getConnection();
+			conn = getConnection();
 			sql = "select * from member where id = ?";
-			pstmt = con.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {				
+			while(rs.next()) {
 				memberbean.setId(rs.getString("id"));
 				memberbean.setPw(rs.getString("pw"));
 				memberbean.setName(rs.getString("name"));
-				memberbean.setRegdate(rs.getTimestamp("regdate"));
-				memberbean.setAge(rs.getInt("age"));
-				memberbean.setGender(rs.getString("gender"));
 				memberbean.setEmail(rs.getString("email"));
-				memberbean.setAddress(rs.getString("address"));
-				memberbean.setTel(rs.getString("tel"));
-				memberbean.setMtel(rs.getString("mtel"));
+				memberbean.setZipcode(rs.getInt("zipcode"));
+				memberbean.setAddress1(rs.getString("address1"));
+				memberbean.setAddress2(rs.getString("address2"));
+				memberbean.setPhone(rs.getString("phone"));
+				memberbean.setRegdate(rs.getTimestamp("regdate"));
 			}
 		}catch(Exception e) {
 			System.out.println("getMember()메소드 내부에서 예외발생 : " + e.toString());
