@@ -1,6 +1,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String cpath = request.getContextPath();
+	String contextPath = request.getContextPath();
 	String userId = (session.getAttribute("userId") != null) ? (String) session.getAttribute("userId") : null;
 	String userName = (session.getAttribute("userName") != null) ? (String) session.getAttribute("userName") : null;
 	String pageName = (request.getAttribute("pageName") != null) ? (String) request.getAttribute("pageName") : null;
@@ -31,15 +31,15 @@
 	<meta name="format-detection" content="telephone=no, email=no, address=no">
 	<title><%=pageTitle%></title>
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-	<link rel="stylesheet" href="<%=cpath%>/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css" />
 	<%
 		if (groupId != null && !groupId.equals("") && !groupId.equals("swimbusan")) {
 	%>
-	<link rel="stylesheet" href="<%=cpath%>/css/<%=groupId%>.css" />
+	<link rel="stylesheet" href="<%=contextPath%>/css/<%=groupId%>.css" />
 	<%
 		}
 	%>
-	<link rel="stylesheet" href="<%=cpath%>/css/style.css" />
-	<script src="<%=cpath%>/js/jquery-3.4.1.min.js"></script>
-	<script src="<%=cpath%>/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="<%=contextPath%>/css/style.css" />
+	<script src="<%=contextPath%>/js/jquery-3.4.1.min.js"></script>
+	<script src="<%=contextPath%>/js/bootstrap.min.js"></script>
 </head>

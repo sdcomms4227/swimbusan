@@ -9,13 +9,13 @@
 
 <%
 	MemberDAO memberDAO = new MemberDAO();
-	int result = memberDAO.insertMember(memberBean);
+	int result = memberDAO.updateMember(memberBean);
 
 	if (result == 1) {
 %>
 	<script>
-		alert("가입이 완료되었습니다.");
-		location.href = "login.jsp";
+		alert("수정이 완료되었습니다.");
+		location.href = "index.jsp";
 	</script>
 <%
 	}

@@ -1,18 +1,23 @@
+<%@page import="member.MemberBean"%>
 <%@ page import="member.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String id = request.getParameter("id");
-	String pw = request.getParameter("pw");
+	String userId = request.getParameter("userId");
+	String userPw = request.getParameter("userPw");
 
 	MemberDAO memberdao = new MemberDAO();
 
-	int check = memberdao.userCheck(id, pw);
+	int check = memberdao.userCheck(userId, userPw);
 
 	if (check == 1) {
-		session.setAttribute("id", id);
-		response.sendRedirect("../main.jsp");
+		session.setAttribute("userId", userId);
+
+		MemberBean memberbean = memberdao.getMember(userId);
+		session.setAttribute("userName", memberbean.getUserName());
+		
+		response.sendRedirect("../index.jsp");
 
 	} else if (check == 0) {
 %>

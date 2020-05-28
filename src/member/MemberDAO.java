@@ -16,13 +16,17 @@ public class MemberDAO {
 	ResultSet rs;
 	
 	private Connection getConnection() throws Exception {
+		
 		Context init = new InitialContext();
 		DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/swimbusan");
 		Connection conn = ds.getConnection();
+		
 		return conn;
+		
 	}
 
-	private void freeResource() {
+	private void freeResource() {	
+		
 		try {
 			if (conn != null)
 				conn.close();
@@ -31,28 +35,31 @@ public class MemberDAO {
 			if (rs != null)
 				rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+			System.out.println("freeResource메소드 내부에서 예외발생 : " + e.toString());
+		}		
+		
+	}//freeResource
 
 	public int insertMember(MemberBean memberbean) {
 
 		String sql = "";
 
 		try {
+			
 			conn = getConnection();
 			sql = "insert into member values(?,?,?,?,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberbean.getId());
-			pstmt.setString(2, memberbean.getPw());
-			pstmt.setString(3, memberbean.getName());
-			pstmt.setString(4, memberbean.getEmail());
-			pstmt.setInt(5, memberbean.getZipcode());
-			pstmt.setString(6, memberbean.getAddress1());
-			pstmt.setString(7, memberbean.getAddress2());
-			pstmt.setString(8, memberbean.getPhone());
+			pstmt.setString(1, memberbean.getUserId());
+			pstmt.setString(2, memberbean.getUserPw());
+			pstmt.setString(3, memberbean.getUserName());
+			pstmt.setString(4, memberbean.getUserEmail());
+			pstmt.setInt(5, memberbean.getUserZipcode());
+			pstmt.setString(6, memberbean.getUserAddress1());
+			pstmt.setString(7, memberbean.getUserAddress2());
+			pstmt.setString(8, memberbean.getUserPhone());
 
 			return pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			System.out.println("insertMember메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
@@ -61,52 +68,27 @@ public class MemberDAO {
 		
 		return 0;
 
-	}// insertMember메소드
+	}//insertMember
 
-	// 회원가입을 위해 사용자가 입력한 id값을 매개변수로 전달받아..
-	// DB에 사용자가 입력한 id값이 존재하는지 SELECT하여..
-	// 만약 사용자가 입력한 id에 해당하는 회원레코드가 SELECT되면?
-	// check변수값을 1로 저장하여 <-- 아이디 중복을 나타내게 하고,
-	// 만약 사용자가 입력한 id에 해당하는 회원레코드가 없으면?
-	// check변수값을 0으로 저장하여 <-- 아이디 중복 아님을 나타내게 함.
-	// 결과적으로.. 아이디 중복이냐 중복이 아니냐는 check변수에 저장되어 있으므로 check변수값을 리턴함.
-	public int idCheck(String id) {
+	public int idCheck(String userId) {
 
-		// SQL문을 생성해서 저장할 변수 선언
 		String sql = "";
-
-		// 아이디 중복이냐 아니냐 판단하는 값
 		int check = 0;
 
 		try {
-			// 커넥션풀로부터 커넥션 얻기
+			
 			conn = getConnection();
-
-			// 매개변수로 전달받은 id에 해당하는 레코드 검색 SQL문 만들기
-			sql = "select * from member where id = ?";
-
-			// SELECT구문을 실행할 PreparedStatement객체 얻기
+			sql = "select * from member where userId = ?";
 			pstmt = conn.prepareStatement(sql);
-
-			// ? 값 설정
-			pstmt.setString(1, id);
-
-			// SELECT문 실행후 검색한 결과를 ResultSet에 저장후 얻기
+			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
 
-			// 검색한 데이터가 존재하면
 			if (rs.next()) {
-
-				// check변수값을 1로 저장
 				check = 1;
-
-				// 검색한 데이터가 존재하지 않으면
 			} else {
-
-				// check변수값을 0으로 저장
 				check = 0;
 			}
-
+			
 		} catch (Exception e) {
 			System.out.println("idCheck메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
@@ -114,45 +96,29 @@ public class MemberDAO {
 		}
 
 		return check;
-	}// idCheck메소드
+		
+	}//idCheck()
 
-	public int userCheck(String id, String pw) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = "";
-		ResultSet rs = null;
-
-		int check = -1; // 1 -> 아이디, 비밀번호 맞음
-						// 0 -> 아이디 맞음, 비밀번호 틀림
-						// -1 -> 아이디 틀림
+	public int userCheck(String userId, String userPw) {
+		
+		String sql = "select * from member where userId = ?";
+		
+		int check = -1;
 
 		try {
+			
 			conn = getConnection();
-			sql = "select * from member where id = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
+			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
 
-			// 아이디가 존재함
 			if (rs.next()) {
-
-				// 비밀번호 존재함
-				if (pw.equals(rs.getString("pw"))) {
-
-					// 아이디 맞음, 비밀번호 맞음
+				if (userPw.equals(rs.getString("userPw"))) {
 					check = 1;
-
-					// 비밀번호가 존재하지 않음
 				} else {
-
-					// 아이디 맞음, 비밀번호 틀림
 					check = 0;
 				}
-
-				// 아이디가 존재하지 않음
 			} else {
-
-				// 아이디 틀림
 				check = -1;
 			}
 
@@ -162,32 +128,36 @@ public class MemberDAO {
 			freeResource();
 		}
 
-		// loginPro.jsp로 반환
 		return check;
-	}// userCheck메소드
+		
+	}//userCheck()
 
-	public MemberBean getMember(String id) {
+	public MemberBean getMember(String userId) {
+		
 		String sql = "";
 		
 		MemberBean memberbean = new MemberBean();
 		
 		try {
+			
 			conn = getConnection();
-			sql = "select * from member where id = ?";
+			sql = "select * from member where userId = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
+			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
+			
 			while(rs.next()) {
-				memberbean.setId(rs.getString("id"));
-				memberbean.setPw(rs.getString("pw"));
-				memberbean.setName(rs.getString("name"));
-				memberbean.setEmail(rs.getString("email"));
-				memberbean.setZipcode(rs.getInt("zipcode"));
-				memberbean.setAddress1(rs.getString("address1"));
-				memberbean.setAddress2(rs.getString("address2"));
-				memberbean.setPhone(rs.getString("phone"));
-				memberbean.setRegdate(rs.getTimestamp("regdate"));
+				memberbean.setUserId(rs.getString("userId"));
+				memberbean.setUserPw(rs.getString("userPw"));
+				memberbean.setUserName(rs.getString("userName"));
+				memberbean.setUserEmail(rs.getString("userEmail"));
+				memberbean.setUserZipcode(rs.getInt("userZipcode"));
+				memberbean.setUserAddress1(rs.getString("userAddress1"));
+				memberbean.setUserAddress2(rs.getString("userAddress2"));
+				memberbean.setUserPhone(rs.getString("userPhone"));
+				memberbean.setUserRegdate(rs.getTimestamp("userRegdate"));
 			}
+			
 		}catch(Exception e) {
 			System.out.println("getMember()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
@@ -195,6 +165,49 @@ public class MemberDAO {
 		}
 		
 		return memberbean;
-	}// getMember
+		
+	}//getMember()
 
-}// MemberDAO 클래스
+	public int updateMember(MemberBean memberBean) {
+		
+		String sql = "select * from member where userId = ?";
+		
+		int result = 0;
+
+		try {
+			
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberBean.getUserId());
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				if (memberBean.getUserPw().equals(rs.getString("userPw"))) {
+
+					sql = "update member set userName=?, userEmail=?, userZipcode=?, userAddress1=?, userAddress2=?, userPhone=? where userId=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, memberBean.getUserName());
+					pstmt.setString(2, memberBean.getUserEmail());
+					pstmt.setInt(3, memberBean.getUserZipcode());
+					pstmt.setString(4, memberBean.getUserAddress1());
+					pstmt.setString(5, memberBean.getUserAddress2());
+					pstmt.setString(6, memberBean.getUserPhone());
+					pstmt.setString(7, memberBean.getUserId());
+					
+					result = pstmt.executeUpdate(); 
+				}else {
+					result = -1;
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("updateMember메소드 내부에서 예외발생 : " + e.toString());
+		} finally {
+			freeResource();
+		}
+		
+		return result;
+
+	}//insertMember
+	
+}//MemberDAO
