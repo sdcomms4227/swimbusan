@@ -2,8 +2,8 @@
 <%@ page import="member.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	String contextPath = request.getContextPath();
 	request.setCharacterEncoding("UTF-8");
-
 	String userId = request.getParameter("userId");
 	String userPw = request.getParameter("userPw");
 
@@ -14,10 +14,10 @@
 	if (check == 1) {
 		session.setAttribute("userId", userId);
 
-		MemberBean memberbean = memberdao.getMember(userId);
-		session.setAttribute("userName", memberbean.getUserName());
+		MemberBean memberBean = memberdao.getMember(userId);
+		session.setAttribute("userName", memberBean.getUserName());
 		
-		response.sendRedirect("../index.jsp");
+		response.sendRedirect(contextPath + "/index.jsp");
 
 	} else if (check == 0) {
 %>

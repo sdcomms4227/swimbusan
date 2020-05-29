@@ -9,9 +9,7 @@
 	String pageId = null;
 	String groupId = null;
 	String[] uri = request.getRequestURI().split("/");
-	
-	System.out.println(uri.toString());
-		
+			
 	if (uri.length >= 2) {
 		pageId = uri[uri.length - 1].replace(".jsp", "");
 		groupId = uri[uri.length - 2];

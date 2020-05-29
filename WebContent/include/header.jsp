@@ -6,7 +6,7 @@
 	String pageId = (String) request.getAttribute("pageId");
 	String groupId = (String) request.getAttribute("groupId");
 %>
-<header class="navbar navbar-expand-lg">
+<header class="navbar navbar-expand-lg navbar-light">
 	<div class="container d-flex justify-content-between">
 		<a class="navbar-brand mr-5" href="<%=contextPath%>/index.jsp">
 			<strong>SwimBusan</strong>
@@ -17,7 +17,7 @@
 		<div class="collapse navbar-collapse justify-content-between" id="navbarGnb">
 			<ul class="nav">
 				<li class="nav-item">
-					<a class="nav-link <%if (pageId.equals("map")) out.print("active");%>" href="<%=contextPath%>/map.jsp">수영장 지도</a>
+					<a class="nav-link <%if (pageId.equals("map")) out.print("active");%>" href="<%=contextPath%>/map/map.jsp">수영장 지도</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link <%if (pageId.equals("info")) out.print("active");%>" href="<%=contextPath%>/board/info.jsp">수영장 정보</a>
@@ -51,7 +51,7 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="loggedDropdown">
 						<a class="dropdown-item" href="<%=contextPath%>/member/modify.jsp">회원정보수정</a>
-						<a class="dropdown-item" href="<%=contextPath%>/member/changepw.jsp">비밀번호변경</a>
+						<a class="dropdown-item" href="<%=contextPath%>/member/change.jsp">비밀번호변경</a>
 						<a class="dropdown-item" href="<%=contextPath%>/member/leave.jsp">회원탈퇴</a>
 						<a class="dropdown-item" href="<%=contextPath%>/member/logout.jsp">로그아웃</a>
 					</div>

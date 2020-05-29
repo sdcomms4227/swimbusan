@@ -40,7 +40,7 @@ public class MemberDAO {
 		
 	}//freeResource
 
-	public int insertMember(MemberBean memberbean) {
+	public int insertMember(MemberBean memberBean) {
 
 		String sql = "";
 
@@ -49,14 +49,14 @@ public class MemberDAO {
 			conn = getConnection();
 			sql = "insert into member values(?,?,?,?,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberbean.getUserId());
-			pstmt.setString(2, memberbean.getUserPw());
-			pstmt.setString(3, memberbean.getUserName());
-			pstmt.setString(4, memberbean.getUserEmail());
-			pstmt.setInt(5, memberbean.getUserZipcode());
-			pstmt.setString(6, memberbean.getUserAddress1());
-			pstmt.setString(7, memberbean.getUserAddress2());
-			pstmt.setString(8, memberbean.getUserPhone());
+			pstmt.setString(1, memberBean.getUserId());
+			pstmt.setString(2, memberBean.getUserPw());
+			pstmt.setString(3, memberBean.getUserName());
+			pstmt.setString(4, memberBean.getUserEmail());
+			pstmt.setInt(5, memberBean.getUserZipcode());
+			pstmt.setString(6, memberBean.getUserAddress1());
+			pstmt.setString(7, memberBean.getUserAddress2());
+			pstmt.setString(8, memberBean.getUserPhone());
 
 			return pstmt.executeUpdate();
 			
@@ -136,7 +136,7 @@ public class MemberDAO {
 		
 		String sql = "";
 		
-		MemberBean memberbean = new MemberBean();
+		MemberBean memberBean = new MemberBean();
 		
 		try {
 			
@@ -147,15 +147,15 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				memberbean.setUserId(rs.getString("userId"));
-				memberbean.setUserPw(rs.getString("userPw"));
-				memberbean.setUserName(rs.getString("userName"));
-				memberbean.setUserEmail(rs.getString("userEmail"));
-				memberbean.setUserZipcode(rs.getInt("userZipcode"));
-				memberbean.setUserAddress1(rs.getString("userAddress1"));
-				memberbean.setUserAddress2(rs.getString("userAddress2"));
-				memberbean.setUserPhone(rs.getString("userPhone"));
-				memberbean.setUserRegdate(rs.getTimestamp("userRegdate"));
+				memberBean.setUserId(rs.getString("userId"));
+				memberBean.setUserPw(rs.getString("userPw"));
+				memberBean.setUserName(rs.getString("userName"));
+				memberBean.setUserEmail(rs.getString("userEmail"));
+				memberBean.setUserZipcode(rs.getInt("userZipcode"));
+				memberBean.setUserAddress1(rs.getString("userAddress1"));
+				memberBean.setUserAddress2(rs.getString("userAddress2"));
+				memberBean.setUserPhone(rs.getString("userPhone"));
+				memberBean.setUserRegdate(rs.getTimestamp("userRegdate"));
 			}
 			
 		}catch(Exception e) {
@@ -164,7 +164,7 @@ public class MemberDAO {
 			freeResource();			
 		}
 		
-		return memberbean;
+		return memberBean;
 		
 	}//getMember()
 
@@ -208,6 +208,79 @@ public class MemberDAO {
 		
 		return result;
 
-	}//insertMember
+	}//updateMember
+	
+	public int updatePassword(String userId, String userPw, String newPw) {
+		
+		String sql = "select * from member where userId = ?";
+		
+		int result = 0;
+		
+		try {
+			
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				if (userPw.equals(rs.getString("userPw"))) {
+					
+					sql = "update member set userPw=? where userId=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, newPw);
+					pstmt.setString(2, userId);
+					
+					result = pstmt.executeUpdate(); 
+				}else {
+					result = -1;
+				}
+			}
+			
+		} catch (Exception e) {
+			System.out.println("updatePassword메소드 내부에서 예외발생 : " + e.toString());
+		} finally {
+			freeResource();
+		}
+		
+		return result;
+		
+	}//updatePassword
+	
+	public int deleteMember(String userId, String userPw) {
+		
+		String sql = "select * from member where userId = ?";
+		
+		int result = 0;
+		
+		try {
+			
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				if (userPw.equals(rs.getString("userPw"))) {
+					
+					sql = "delete from member where userId=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, userId);
+					
+					result = pstmt.executeUpdate(); 
+				}else {
+					result = -1;
+				}
+			}
+			
+		} catch (Exception e) {
+			System.out.println("deleteMember메소드 내부에서 예외발생 : " + e.toString());
+		} finally {
+			freeResource();
+		}
+		
+		return result;
+		
+	}//deleteMember
 	
 }//MemberDAO

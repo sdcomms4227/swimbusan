@@ -6,7 +6,7 @@
 	font-family: 'Nanum Gothic';
 }
 
-/* navigation */
+/* bootstrap override */
 .nav .nav-link {
 	color: #999;
 	transition: ease-in-out color .15s;
@@ -21,6 +21,10 @@
 	transition: ease-in-out all .15s;
 	white-space: nowrap;
 }
+.form-control[readonly]:focus {
+	border-color: #ced4da;
+    box-shadow: none;
+}
 
 /* layout */
 header {
@@ -34,4 +38,3 @@ footer {
 		margin-bottom: 0 !important;
 	}
 }
-

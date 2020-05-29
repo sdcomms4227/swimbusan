@@ -2,126 +2,124 @@ package board;
 
 import java.sql.Timestamp;
 
-//VO, DTO
 public class BoardBean {
 
-	// 변수
-	private int num;
-	private String name;
-	private String passwd;
-	private String subject;
-	private String content;
-	private String file;
-	private int re_ref;
-	private int re_lev;
-	private int re_seq;
-	private int readcount;
-	private Timestamp date;
-	private String ip;
-	private String id;
+	private int boardNum;
+	private String userId;
+	private String userName;
+	private String boardPw;
+	private String boardSubject;
+	private String boardContent;
+	private String boardFile;
+	private int boardRe_ref;
+	private int boardRe_lev;
+	private int boardRe_seq;
+	private int boardCount;
+	private Timestamp boardDate;
+	private String boardIp;
 
-	// getter, setter 메소드
-	public int getNum() {
-		return num;
+	public int getBoardNum() {
+		return boardNum;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setBoardNum(int boardNum) {
+		this.boardNum = boardNum;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getPasswd() {
-		return passwd;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getBoardPw() {
+		return boardPw;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setBoardPw(String boardPw) {
+		this.boardPw = boardPw;
 	}
 
-	public String getContent() {
-		return content;
+	public String getBoardSubject() {
+		return boardSubject;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setBoardSubject(String boardSubject) {
+		this.boardSubject = boardSubject;
 	}
 
-	public String getFile() {
-		return file;
+	public String getBoardContent() {
+		return boardContent;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
 	}
 
-	public int getRe_ref() {
-		return re_ref;
+	public String getBoardFile() {
+		return boardFile;
 	}
 
-	public void setRe_ref(int re_ref) {
-		this.re_ref = re_ref;
+	public void setBoardFile(String boardFile) {
+		this.boardFile = boardFile;
 	}
 
-	public int getRe_lev() {
-		return re_lev;
+	public int getBoardRe_ref() {
+		return boardRe_ref;
 	}
 
-	public void setRe_lev(int re_lev) {
-		this.re_lev = re_lev;
+	public void setBoardRe_ref(int boardRe_ref) {
+		this.boardRe_ref = boardRe_ref;
 	}
 
-	public int getRe_seq() {
-		return re_seq;
+	public int getBoardRe_lev() {
+		return boardRe_lev;
 	}
 
-	public void setRe_seq(int re_seq) {
-		this.re_seq = re_seq;
+	public void setBoardRe_lev(int boardRe_lev) {
+		this.boardRe_lev = boardRe_lev;
 	}
 
-	public int getReadcount() {
-		return readcount;
+	public int getBoardRe_seq() {
+		return boardRe_seq;
 	}
 
-	public void setReadcount(int readcount) {
-		this.readcount = readcount;
+	public void setBoardRe_seq(int boardRe_seq) {
+		this.boardRe_seq = boardRe_seq;
 	}
 
-	public Timestamp getDate() {
-		return date;
+	public int getBoardCount() {
+		return boardCount;
 	}
 
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setBoardCount(int boardCount) {
+		this.boardCount = boardCount;
 	}
 
-	public String getIp() {
-		return ip;
+	public Timestamp getBoardDate() {
+		return boardDate;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setBoardDate(Timestamp boardDate) {
+		this.boardDate = boardDate;
 	}
 
-	public String getId() {
-		return id;
+	public String getBoardIp() {
+		return boardIp;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setBoardIp(String boardIp) {
+		this.boardIp = boardIp;
 	}
+
 }

@@ -18,7 +18,10 @@
 	margin: auto;
 }
 
-.joinform {
+.joinform,
+.modifyform,
+.changeform,
+.leaveform {
 	width: 100%;
 	max-width: 640px;
 	margin: auto;
@@ -130,5 +133,5 @@
 }
 
 .input-group-text {
-	width: 132px;
+	width: 144px;
 }
