@@ -7,11 +7,11 @@
 <body>
 	<jsp:include page="../include/header.jsp" />
 	<section class="container py-5">
+		<h2>${pageName}</h2>
+		<hr />
 		<form name="joinform" class="joinform" action="joinPro.jsp" method="post" onsubmit="return joinSubmit()">
 			<input type="hidden" name="idCheckState" value="0" />
 			<input type="hidden" name="emailCheckState" value="0" />
-			<h2>${pageName}</h2>
-			<hr />
 			<fieldset class="my-5">
 				<legend class="mb-3">필수 입력</legend>
 				<div class="input-group mb-3">

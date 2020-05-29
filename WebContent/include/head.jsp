@@ -30,6 +30,7 @@
 	<title><%=pageTitle%></title>
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 	<link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="<%=contextPath%>/css/style.css" />
 	<%
 		if (groupId != null && !groupId.equals("") && !groupId.equals("swimbusan")) {
 	%>
@@ -37,7 +38,6 @@
 	<%
 		}
 	%>
-	<link rel="stylesheet" href="<%=contextPath%>/css/style.css" />
 	<script src="<%=contextPath%>/js/jquery-3.4.1.min.js"></script>
 	<script src="<%=contextPath%>/js/bootstrap.min.js"></script>
 </head>

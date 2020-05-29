@@ -22,9 +22,9 @@
 <body>
 	<jsp:include page="../include/header.jsp" />
 	<section class="container py-5">
+		<h2>${pageName}</h2>
+		<hr />
 		<form name="modifyform" class="modifyform" action="modifyPro.jsp" method="post">
-			<h2>${pageName}</h2>
-			<hr />
 			<fieldset class="my-5">
 				<legend class="mb-3">필수 입력</legend>
 				<div class="input-group mb-3">

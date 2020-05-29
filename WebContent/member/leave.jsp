@@ -11,9 +11,9 @@
 <body>
 	<jsp:include page="../include/header.jsp" />
 	<section class="container py-5">
+		<h2>${pageName}</h2>
+		<hr />
 		<form name="leaveform" class="leaveform" action="leavePro.jsp" method="post" onsubmit="return leaveSubmit()">
-			<h2>${pageName}</h2>
-			<hr />
 			<fieldset class="my-5">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">

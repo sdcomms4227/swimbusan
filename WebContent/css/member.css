@@ -17,11 +17,16 @@
 }
 
 .joinform,
-.modifyform,
+.modifyform {
+  width: 100%;
+  max-width: 690px;
+  margin: auto;
+}
+
 .changeform,
 .leaveform {
   width: 100%;
-  max-width: 640px;
+  max-width: 510px;
   margin: auto;
 }
 

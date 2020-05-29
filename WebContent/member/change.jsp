@@ -11,9 +11,9 @@
 <body>
 	<jsp:include page="../include/header.jsp" />
 	<section class="container py-5">
+		<h2>${pageName}</h2>
+		<hr />
 		<form name="changeform" class="changeform" action="changePro.jsp" method="post">
-			<h2>${pageName}</h2>
-			<hr />
 			<fieldset class="my-5">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
