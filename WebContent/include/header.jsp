@@ -49,7 +49,7 @@
 					<a class="nav-link dropdown-toggle" id="loggedDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span><%=userName%> 님</span><span class="caret"></span>
 					</a>
-					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="loggedDropdown">
+					<div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="loggedDropdown">
 						<a class="dropdown-item" href="<%=contextPath%>/member/modify.jsp">회원정보수정</a>
 						<a class="dropdown-item" href="<%=contextPath%>/member/change.jsp">비밀번호변경</a>
 						<a class="dropdown-item" href="<%=contextPath%>/member/leave.jsp">회원탈퇴</a>

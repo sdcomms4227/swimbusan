@@ -6,9 +6,13 @@
 <jsp:include page="./include/head.jsp" />
 <body>
 	<jsp:include page="./include/header.jsp" />
-	<div class="container">
-		<h1><%=pageName%></h1>
-	</div>
-	<jsp:include page="./include/footer.jsp" />
+	<section class="container body-container py-5">
+		<div class="row">
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
+		</div>
+		</div>
+		<jsp:include page="./include/footer.jsp" />
 </body>
 </html>
