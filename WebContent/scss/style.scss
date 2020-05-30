@@ -38,3 +38,6 @@ footer {
 		margin-bottom: 0 !important;
 	}
 }
+.body-container {
+	min-height: calc(100vh - 56px - 43px);
+}
