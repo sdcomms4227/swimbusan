@@ -1,17 +1,21 @@
 <%@page import="member.MemberDAO"%>
 <%@page import="member.MemberBean"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String pageName = "비밀번호변경";
 	request.setAttribute("pageName", pageName);
 	
-	String userId = (String)session.getAttribute("userId");
+	String userId = (String) session.getAttribute("userId");
 %>
 <jsp:include page="../include/head.jsp" />
 <body>
 	<jsp:include page="../include/header.jsp" />
-	<section class="container py-5">
-		<h2>${pageName}</h2>
+	<section class="container body-container py-5">
+		<div class="row">
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
+		</div>
 		<hr />
 		<form name="changeform" class="changeform" action="changePro.jsp" method="post">
 			<fieldset class="my-5">
@@ -35,8 +39,8 @@
 				</div>
 			</fieldset>
 			<div class="text-center my-5">
-				<input type="button" onclick="history.back()" class="btn btn-secondary" value="취소" />
-				<input type="submit" class="btn btn-primary" value="비밀번호변경" />
+				<button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+				<button type="submit" class="btn btn-primary">비밀번호변경</button>
 			</div>
 		</form>
 	</section>

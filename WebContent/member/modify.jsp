@@ -1,28 +1,33 @@
 <%@page import="member.MemberDAO"%>
 <%@page import="member.MemberBean"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String pageName = "회원정보수정";
-	request.setAttribute("pageName", pageName);	
-	
-	String userId = (String)session.getAttribute("userId");
-	
+	request.setAttribute("pageName", pageName);
+
+	request.setCharacterEncoding("UTF-8");
+	String userId = (String) session.getAttribute("userId");
+
 	MemberDAO memberDAO = new MemberDAO();
 	MemberBean memberBean = memberDAO.getMember(userId);
-	
+
 	String userPw = memberBean.getUserPw();
 	String userName = memberBean.getUserName();
 	String userEmail = memberBean.getUserEmail();
-	String userZipcode = (memberBean.getUserZipcode()!=0) ? Integer.toString(memberBean.getUserZipcode()) : "";
-	String userAddress1 = (memberBean.getUserAddress1()!=null) ? memberBean.getUserAddress1() : "";
-	String userAddress2 = (memberBean.getUserAddress2()!=null) ? memberBean.getUserAddress2() : "";
-	String userPhone = (memberBean.getUserPhone()!=null) ? memberBean.getUserPhone() : "";
+	String userZipcode = (memberBean.getUserZipcode() != 0) ? Integer.toString(memberBean.getUserZipcode()) : "";
+	String userAddress1 = (memberBean.getUserAddress1() != null) ? memberBean.getUserAddress1() : "";
+	String userAddress2 = (memberBean.getUserAddress2() != null) ? memberBean.getUserAddress2() : "";
+	String userPhone = (memberBean.getUserPhone() != null) ? memberBean.getUserPhone() : "";
 %>
 <jsp:include page="../include/head.jsp" />
 <body>
 	<jsp:include page="../include/header.jsp" />
-	<section class="container py-5">
-		<h2>${pageName}</h2>
+	<section class="container body-container py-5">
+		<div class="row">
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
+		</div>
 		<hr />
 		<form name="modifyform" class="modifyform" action="modifyPro.jsp" method="post">
 			<fieldset class="my-5">
@@ -83,60 +88,64 @@
 				</div>
 			</fieldset>
 			<div class="text-center my-5">
-				<input type="button" onclick="history.back()" class="btn btn-secondary" value="취소" />
-				<input type="submit" class="btn btn-primary" value="회원정보수정" />
+				<button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+				<button type="submit" class="btn btn-primary">회원정보수정</button>
 			</div>
 		</form>
 	</section>
 	<jsp:include page="../include/footer.jsp" />
-	
+
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-	    function daumPostcode() {
-	        new daum.Postcode({
-	            oncomplete: function(data) {
-	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	
-	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	                var addr = ''; // 주소 변수
-	                var extraAddr = ''; // 참고항목 변수
-	
-	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-	                    addr = data.roadAddress;
-	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-	                    addr = data.jibunAddress;
-	                }
-	
-	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-	                if(data.userSelectedType === 'R'){
-	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                        extraAddr += data.bname;
-	                    }
-	                    // 건물명이 있고, 공동주택일 경우 추가한다.
-	                    if(data.buildingName !== '' && data.apartment === 'Y'){
-	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                    }
-	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	                    if(extraAddr !== ''){
-	                        extraAddr = ' (' + extraAddr + ')';
-	                    }
-	                    // 조합된 참고항목을 해당 필드에 넣는다.
-	                    document.getElementById("userAddress1").value += extraAddr;
-	                
-	                }
-	
-	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	                document.getElementById('userZipcode').value = data.zonecode;
-	                document.getElementById("userAddress1").value = addr;
-	                // 커서를 상세주소 필드로 이동한다.
-	                document.getElementById("userAddress2").focus();
-	            }
-	        }).open();
-	    }
+		function daumPostcode() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var addr = ''; // 주소 변수
+					var extraAddr = ''; // 참고항목 변수
+
+					//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						addr = data.roadAddress;
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						addr = data.jibunAddress;
+					}
+
+					// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+					if (data.userSelectedType === 'R') {
+						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+						if (data.bname !== ''
+								&& /[동|로|가]$/g.test(data.bname)) {
+							extraAddr += data.bname;
+						}
+						// 건물명이 있고, 공동주택일 경우 추가한다.
+						if (data.buildingName !== ''
+								&& data.apartment === 'Y') {
+							extraAddr += (extraAddr !== '' ? ', '
+									+ data.buildingName
+									: data.buildingName);
+						}
+						// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+						if (extraAddr !== '') {
+							extraAddr = ' (' + extraAddr + ')';
+						}
+						// 조합된 참고항목을 해당 필드에 넣는다.
+						document.getElementById("userAddress1").value += extraAddr;
+
+					}
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					document.getElementById('userZipcode').value = data.zonecode;
+					document.getElementById("userAddress1").value = addr;
+					// 커서를 상세주소 필드로 이동한다.
+					document.getElementById("userAddress2").focus();
+				}
+			}).open();
+		}
 	</script>
 </body>
 </html>

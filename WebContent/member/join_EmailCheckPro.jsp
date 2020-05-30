@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String emailKey = (String)session.getAttribute("emailKey");
+
+	String emailKey = (String) session.getAttribute("emailKey");
 	String userKey = request.getParameter("userKey");
 
 	if (emailKey.equals(userKey)) {
@@ -12,7 +13,7 @@
 		window.close();
 	</script>
 <%
-	}else{
+	} else {
 %>
 	<script>
 		alert("인증번호가 일치하지 않습니다.");

@@ -18,7 +18,7 @@
 				<label for="userPw">비밀번호</label>
 			</div>
 			<button type="submit" class="btn btn-lg btn-primary btn-block mb-5">로그인</button>
-			<a href="join.jsp" class="btn btn-link" role="button">회원가입</a>
+			<button type="button" class="btn btn-link" onclick="location.href='join.jsp'">회원가입</button>
 		</form>
 	</section>
 	<jsp:include page="../include/footer.jsp" />
