@@ -5,51 +5,52 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String pageName = "수다방";
-	request.setAttribute("pageName",pageName);
+	request.setAttribute("pageName", pageName);
+	String contextPath = request.getContextPath();
 %>
 <jsp:include page="/include/head.jsp" />
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String search = (request.getParameter("search")!=null) ? request.getParameter("search") : "";	
-	
+	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+
 	BoardDAO boardDao = new BoardDAO();
-	
-	int count = boardDao.getBoardCount();
-	
+
+	int count = boardDao.getBoardCount(search);
+
 	int pageSize = 10;
-	
+
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
 
 	int currentPage = Integer.parseInt(pageNum);
-	
+
 	int startRow = (currentPage - 1) * pageSize;
-	
+
 	List<BoardBean> list = null;
-	
+
 	if (count > 0) {
 		list = boardDao.getBoardList(startRow, pageSize, search);
 	}
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
-	<section class="container py-5">
+	<section class="container body-container py-5">
 		<div class="row">
-			<div class="col-10"><h2><%=pageName%></h2></div>
-			<div class="col-2 text-right"><p>Total : <%=count%></p></div>
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
 		</div>
 		<!-- 게시판 -->
 		<article class="mt-3">
-			
 			<table class="table table-hover text-center">
-				<colgroup>
+				<colgroup class="d-none d-lg-table-column-group">
 					<col />
 					<col style="width:60%"/>
 					<col />
 					<col />
 					<col />
 				</colgroup>
-				<thead class="thead-light">
+				<thead class="thead-light d-none d-lg-table-header-group">
 					<tr>
 						<th>번호</th>
 						<th>제목</th>
@@ -64,23 +65,36 @@
 							for (int i = 0; i < list.size(); i++) {
 								BoardBean boardBean = list.get(i);
 					%>
-					<tr onclick="location.href='content.jsp?num=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor:pointer">
-						<td><%=boardBean.getBoardNum()%></td>
+					<tr onclick="location.href='read.jsp?boardNum=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
+						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardNum()%></td>
 						<td class="text-left">
 							<%
 								int wid = 0;
-								if(boardBean.getBoardRe_lev() > 0){
-									wid = boardBean.getBoardRe_lev() * 10;
+										if (boardBean.getBoardRe_lev() > 0) {
+											wid = boardBean.getBoardRe_lev() * 10;
 							%>
-							<img src="../images/center/re.gif" style="margin-left:<%=wid%>px" />
+							<img src="<%=contextPath%>/images/re.gif" style="margin-left:<%=wid%>px" class="mr-2" />
 							<%
 								}
 							%>
 							<%=boardBean.getBoardSubject()%>
+							
+							<%
+								if(boardBean.getBoardFile()!=null && !boardBean.getBoardSubject().equals("")){
+							%>
+								<svg class="bi bi-download ml-2" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
+								  <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
+								  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
+								</svg>
+							<%} %>
+							<small class="d-block d-lg-none text-right mt-1 text-muted">
+								<%=boardBean.getUserName()%> | <%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%> | <%=boardBean.getBoardCount()%>
+							</small>
 						</td>
-						<td><%=boardBean.getUserName()%></td>
-						<td><%=new SimpleDateFormat("yyyy.MM.dd").format(boardBean.getBoardDate())%></td>
-						<td><%=boardBean.getBoardCount()%></td>
+						<td class="d-none d-lg-table-cell"><%=boardBean.getUserName()%></td>
+						<td class="d-none d-lg-table-cell"><%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%></td>
+						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardCount()%></td>
 					</tr>
 					<%
 						}
@@ -94,88 +108,66 @@
 					%>
 				</tbody>
 			</table>
-
 			<div class="row  my-5">
-				<div class="col-4">
-				</div>
-				<div class="col-4">
-					<form action="board.jsp">
-						<div class="input-group">
-							<input type="text" name="search" class="form-control">
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-secondary">검색</button> 
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="col-4 text-right">
+				<div class="col-12 col-lg-4">
 					<%
 						String userId = (String) session.getAttribute("userId");
 						if (userId != null) {
 					%>
-						<div class="form-group">
-							<input type="button" value="글쓰기" class="btn btn-secondary pull-right" onclick="location.href='write.jsp'" />
-						</div>
+					<div class="form-group text-center text-lg-left">
+						<button type="button" class="btn btn-secondary" onclick="location.href='write.jsp'">글쓰기</button>
+					</div>
 					<%
 						}
 					%>
 				</div>
-			</div>
-			
-			<div id="page_control">
-				<%
-					if (count > 0) {
-						//전체 페이지수 구하기 	글 20개 한 페이지에 보여줄 글 수 10개 => 2 페이지
-						//					글 25개 한 페이지에 보여줄 글 수 10개 => 3 페이지
-						//조건 삼항 연산자	조건 ? 참 : 거짓
-						//전체 페이지 수 = 전체글 수 / 한 페이지에 보여줄 글 수 + (전체글 수를 한 페이지에 보여줄 글 수로 나눈 나머지 값)
-						int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-
-						//한 블럭에 묶여질 페이지 번호 수 설정
-						int pageBlock = 5;
-
-						//시작페이지 번호 구하기
-						//1~10 => 1, 11~20 => 11, 21~30 => 21
-						//((선택한 페이지 번호 / 한 블럭에 보여지는 페이지 번호 수) - (선택한 페이지 번호를 한 화면에 보여줄 페이지수로 나눈 나머지 값)) * 한 블럭에 보여줄 페이지 수 + 1
-						int startPage = ((currentPage / pageBlock) - (currentPage % pageBlock == 0 ? 1 : 0)) * pageBlock + 1;
-
-						//끝페이지 번호 구하기
-						//1~10 => 10, 11~20 => 20. 21~30 => 30
-						//시작페이지 번호 + 현재블럭에 보여줄 페이지 수 - 1
-						int endPage = startPage + pageBlock - 1;
-
-						//끝페이지 번호가 전체페이지 수보다 클 때
-						if (endPage > pageCount) {
-							//끝페이지 번호를 전체페이지수로 저장
-							endPage = pageCount;
-						}
-
-						//[이전] 시작페이지 번호가 한 화면에 보여줄 페이지수보다 클 때..
-						if (startPage > pageBlock) {
-				%>
-				<a href="noticeSearch.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>">[이전]</a>
-				<%
-					}
-						//[1][2][3]...[10]
-						for (int i = startPage; i <= endPage; i++) {
-							String active = (pageNum == null && i == 1 || Integer.parseInt(pageNum) == i)
-									? "class='active'"
-									: "";
-				%>
-				<a href="noticeSearch.jsp?pageNum=<%=i%>&search=<%=search%>" <%=active%>>
-					[<%=i%>]
-				</a>
-				<%
-					}
-
-						//[다음] 끝페이지 번호가 전체 페이지수보다 작을 때..
-						if (endPage < pageCount) {
-				%>
-				<a href="noticeSearch.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">[다음]</a>
-				<%
-					}
-					}
-				%>
+				<div class="col-12 col-lg-4">
+					<ul class="pagination justify-content-center">
+						<%
+							if (count > 0) {
+								int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+								int pageBlock = 5;
+								int startPage = ((currentPage / pageBlock) - (currentPage % pageBlock == 0 ? 1 : 0)) * pageBlock + 1;
+								int endPage = startPage + pageBlock - 1;
+		
+								if (endPage > pageCount) {
+									endPage = pageCount;
+								}
+		
+								String disabled1 = (startPage > pageBlock) ? "" : "disabled";
+						%>
+			   				<li class="page-item <%=disabled1%>">
+								<a class="page-link" href="board.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>">이전</a>
+							</li>
+						<%
+								for (int i = startPage; i <= endPage; i++) {
+									String active = (pageNum == null && i == 1 || Integer.parseInt(pageNum) == i) ? "active" : "";
+						%>
+			   				<li class="page-item <%=active%>">
+								<a class="page-link" href="board.jsp?pageNum=<%=i%>&search=<%=search%>"><%=i%></a>
+							</li>
+						<%
+							}
+							String disabled2 = (endPage < pageCount) ? "" : "disabled";
+						%>
+			   				<li class="page-item <%=disabled2%>">
+								<a class="page-link" href="board.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">다음</a>
+							</li>
+						<%
+							}
+						%>
+					</ul>
+				</div>
+				<div class="col-12 col-lg-4">
+					<form action="board.jsp" class="form-inline justify-content-center justify-content-lg-end">
+						<div class="input-group">
+							<input type="text" name="search" size="24" maxlength="24" class="form-control">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-secondary">검색</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</article>
 		<!-- 게시판 -->

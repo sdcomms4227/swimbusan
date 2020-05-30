@@ -1,7 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String pageName = "수영장 후기";
-	request.setAttribute("pageName",pageName);
+	request.setAttribute("pageName", pageName);
 %>
 <jsp:include page="/include/head.jsp" />
 <body>

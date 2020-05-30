@@ -2,110 +2,106 @@
 <%@page import="board.BoardBean"%>
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="../css/default.css" rel="stylesheet" type="text/css">
-<link href="../css/subpage.css" rel="stylesheet" type="text/css">
-</head>
 <%
-	String id = (String)session.getAttribute("id");
-	String name = (String)session.getAttribute("name");
-
-	if(id==null){
-		response.sendRedirect("../member/login.jsp");
+	String pageName = "수다방";
+	request.setAttribute("pageName", pageName);
+%>
+<jsp:include page="/include/head.jsp" />
+<%
+	String contextPath = request.getContextPath();
+	String userId = (String) session.getAttribute("userId");
+	String userName = (String) session.getAttribute("userName");
+	
+	if (userId == null) {
+		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
 	
 	request.setCharacterEncoding("UTF-8");
 
-	int num = Integer.parseInt(request.getParameter("num"));
-	int re_ref = Integer.parseInt(request.getParameter("re_ref"));
-	int re_lev = Integer.parseInt(request.getParameter("re_lev"));
-	int re_seq = Integer.parseInt(request.getParameter("re_seq"));
+	String boardSubject = request.getParameter("boardSubject");
+	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+	int boardRe_ref = Integer.parseInt(request.getParameter("boardRe_ref"));
+	int boardRe_lev = Integer.parseInt(request.getParameter("boardRe_lev"));
+	int boardRe_seq = Integer.parseInt(request.getParameter("boardRe_seq"));
 %>
 <body>
-	<div id="wrap">
-		<!-- 헤더들어가는 곳 -->
-		<jsp:include page="/inc/top.jsp" />
-		<!-- 헤더들어가는 곳 -->
-
-		<!-- 본문들어가는 곳 -->
-		<!-- 메인이미지 -->
-		<div id="sub_img_center"></div>
-		<!-- 메인이미지 -->
-
-		<!-- 왼쪽메뉴 -->
-		<nav id="sub_menu">
-			<ul>
-				<li>
-					<a href="#">Notice</a>
-				</li>
-				<li>
-					<a href="#">Public News</a>
-				</li>
-				<li>
-					<a href="#">Driver Download</a>
-				</li>
-				<li>
-					<a href="#">Service Policy</a>
-				</li>
-			</ul>
-		</nav>
-		<!-- 왼쪽메뉴 -->
-
+	<jsp:include page="/include/header.jsp" />
+	<section class="container body-container py-5">
+		<div class="row">
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
+		</div>
 		<!-- 게시판 -->
-		<article>
-			<h1>Notice Content</h1>
-			<form action="reWritePro.jsp" method="post">
-				<input type="hidden" name="num" value="<%=num%>" />
-				<input type="hidden" name="re_ref" value="<%=re_ref%>" />
-				<input type="hidden" name="re_lev" value="<%=re_lev%>" />
-				<input type="hidden" name="re_seq" value="<%=re_seq%>" />
-				<table id="notice">
+		<article class="mt-3">
+			<form action="reWritePro.jsp" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="num" value="<%=boardNum%>" />
+				<input type="hidden" name="boardRe_ref" value="<%=boardRe_ref%>" />
+				<input type="hidden" name="boardRe_lev" value="<%=boardRe_lev%>" />
+				<input type="hidden" name="boardRe_seq" value="<%=boardRe_seq%>" />
+				<table class="table">
 					<colgroup>
-						<col style="width: 25%" />
+						<col style="max-width: 15%" />
 						<col />
 					</colgroup>
 					<tr>
-						<td>이름</td>
-						<td class="left">
-							<input type="text" name="name" value="<%=name%>" readonly />
+						<th class="align-middle">
+							<label for="userName" class="m-0">이름</label>
+						</th>
+						<td>
+							<input class="form-control" type="text" name="userName" id="userName" value="<%=userName%>" readonly />
 						</td>
 					</tr>
 					<tr>
-						<td>비밀번호</td>
-						<td class="left">
-							<input type="password" name="passwd" />
+						<th class="align-middle">
+							<label for="userName" class="m-0">비밀번호</label>
+						</th>
+						<td>
+							<input class="form-control" type="password" name="boardPw" required />
 						</td>
 					</tr>
 					<tr>
-						<td>제목</td>
-						<td class="left">
-							<input type="text" name="subject" value="[답글]" />
+						<th class="align-middle">
+							<label for="userName" class="m-0">제목</label>
+						</th>
+						<td>
+							<input class="form-control" type="text" name="boardSubject" value="답글 : <%=boardSubject%>" required />
 						</td>
 					</tr>
 					<tr>
-						<td>글내용</td>
-						<td class="left">
-							<textarea name="content" cols="40" rows="13"></textarea>
+						<th class="align-middle">
+							<label for="userName" class="m-0">내용</label>
+						</th>
+						<td>
+							<textarea class="form-control" name="boardContent" cols="40" rows="13" required></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th class="align-middle">
+							<label class="m-0">파일첨부</label>
+						</th>
+						<td>
+							<div class="custom-file">
+								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" />
+								<label class="custom-file-label" for="boardFile">Choose file</label>
+							</div>
 						</td>
 					</tr>
 				</table>
-				<div id="table_search">
-					<input type="submit" value="답글작성" class="btn" />
-					<input type="reset" value="다시작성" class="btn" />
-					<input type="button" value="이전으로" class="btn" onclick="history.back()" />				
+				<div class="text-center my-5">
+					<button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+					<button type="submit" class="btn btn-primary">답글쓰기</button>
 				</div>
 			</form>
 		</article>
 		<!-- 게시판 -->
-		<!-- 본문들어가는 곳 -->
-		<div class="clear"></div>
-		<!-- 푸터들어가는 곳 -->
-		<jsp:include page="/inc/bottom.jsp" />
-		<!-- 푸터들어가는 곳 -->
-	</div>
+	</section>
+	<jsp:include page="/include/footer.jsp" />
+	<script src="<%=contextPath%>/js/bs-custom-file-input.js"></script>
+	<script>
+		$(document).ready(function() {
+			bsCustomFileInput.init()
+		})
+	</script>
 </body>
 </html>

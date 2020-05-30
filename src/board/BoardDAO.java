@@ -37,48 +37,59 @@ public class BoardDAO {
 		}
 	}
 
-	public void insertBoard(BoardBean boardBean) {
+	public int insertBoard(BoardBean boardBean) {
 		String sql = "";
 		int num = 0;
-
-		try {
-			conn = getConnection();
-			sql = "select max(boardNum) from board";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				num = rs.getInt(1) + 1;
-			} else {
-				num = 1;
+				
+		if(boardBean.getBoardSubject()==null || boardBean.getBoardSubject().equals("")) {
+			return -1;
+		}else if(boardBean.getBoardContent()==null || boardBean.getBoardContent().equals("")) {
+			return -2;
+		}else if(boardBean.getBoardPw()==null || boardBean.getBoardPw().equals("")) {
+			return -3;
+		}else {
+			try {
+				conn = getConnection();
+				sql = "select max(boardNum) from board";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+	
+				if (rs.next()) {
+					num = rs.getInt(1) + 1;
+				} else {
+					num = 1;
+				}
+	
+				sql = "insert into board(boardNum,userId,userName,boardPw,boardSubject,boardContent,boardFile,boardRe_ref,boardRe_lev,boardRe_seq,boardCount,boardDate,boardIp)"
+						+ "values(?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+	
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				pstmt.setString(2, boardBean.getUserId());
+				pstmt.setString(3, boardBean.getUserName());
+				pstmt.setString(4, boardBean.getBoardPw());
+				pstmt.setString(5, boardBean.getBoardSubject());
+				pstmt.setString(6, boardBean.getBoardContent());
+				pstmt.setString(7, boardBean.getBoardFile());
+				pstmt.setInt(8, num);
+				pstmt.setInt(9, 0);
+				pstmt.setInt(10, 0);
+				pstmt.setInt(11, 0);
+				pstmt.setString(12, boardBean.getBoardIp());
+	
+				return pstmt.executeUpdate();
+	
+			} catch (Exception e) {
+				System.out.println("insertBoard()메소드 내부에서 예외발생 : " + e.toString());
+			} finally {
+				freeResource();
 			}
-
-			sql = "insert into board(boardNum,userId,userName,boardPw,boardSubject,boardContent,boardRe_ref,boardRe_lev,boardRe_seq,boardCount,boardDate,boardIp)"
-					+ "values(?,?,?,?,?,?,?,?,?,?,now(),?)";
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			pstmt.setString(2, boardBean.getUserId());
-			pstmt.setString(3, boardBean.getUserName());
-			pstmt.setString(4, boardBean.getBoardPw());
-			pstmt.setString(5, boardBean.getBoardSubject());
-			pstmt.setString(6, boardBean.getBoardContent());
-			pstmt.setInt(7, num);
-			pstmt.setInt(8, 0);
-			pstmt.setInt(9, 0);
-			pstmt.setInt(10, 0);
-			pstmt.setString(11, boardBean.getBoardIp());
-
-			pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			System.out.println("insertBoard()메소드 내부에서 예외발생 : " + e.toString());
-		} finally {
-			freeResource();
 		}
+		
+		return 0; 
 	}// insertBoard
 
-	public int getBoardCount() {
+	public int getBoardCount(String search) {
 
 		String sql = "";
 		int count = 0;
@@ -86,8 +97,9 @@ public class BoardDAO {
 		try {
 
 			conn = getConnection();
-			sql = "select count(*) from board";
+			sql = "select count(*) from board where boardSubject like ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + search + "%");
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -165,7 +177,7 @@ public class BoardDAO {
 		}
 	}// updateCount
 
-	public BoardBean getBoard(int num) {
+	public BoardBean getBoard(int boardNum) {
 		String sql = "";
 
 		BoardBean boardBean = new BoardBean();
@@ -173,14 +185,15 @@ public class BoardDAO {
 		try {
 
 			conn = getConnection();
-			sql = "select * from board where num = ?";
+			sql = "select * from board where boardNum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, boardNum);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				boardBean.setBoardContent(rs.getString("boardContent"));
 				boardBean.setBoardDate(rs.getTimestamp("boardDate"));
+				boardBean.setBoardFile(rs.getString("boardFile"));
 				boardBean.setBoardIp(rs.getString("boardIp"));
 				boardBean.setBoardNum(rs.getInt("boardNum"));
 				boardBean.setBoardPw(rs.getString("boardPw"));
@@ -202,7 +215,6 @@ public class BoardDAO {
 	}// getBoard
 
 	public int updateBoard(BoardBean boardBean) {
-		int check = 0;
 		String sql = "select boardPw from board where boardNum=?";
 
 		try {
@@ -210,15 +222,25 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardBean.getBoardNum());
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				if (boardBean.getBoardPw().contentEquals(rs.getString("boardPw"))) {
-					sql = "update board set boardSubject=?, boardContent=? where boardNum=?";
+			if (rs.next()) {				
+				if(rs.getString("boardPw")!=null && !boardBean.getBoardPw().equals(rs.getString("boardPw"))) {
+					return -1;
+				}
+				if(boardBean.getBoardFile()==null) {
+					sql = "update board set boardSubject=?, boardContent=? where boardNum=?";					
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, boardBean.getBoardSubject());
 					pstmt.setString(2, boardBean.getBoardContent());
-					pstmt.setInt(3, boardBean.getBoardNum());
-					check = pstmt.executeUpdate();
+					pstmt.setInt(3, boardBean.getBoardNum());					
+				}else {
+					sql = "update board set boardSubject=?, boardContent=?, boardFile=? where boardNum=?";					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, boardBean.getBoardSubject());
+					pstmt.setString(2, boardBean.getBoardContent());
+					pstmt.setString(3, boardBean.getBoardFile());
+					pstmt.setInt(4, boardBean.getBoardNum());
 				}
+				return pstmt.executeUpdate();
 			}
 		} catch (Exception e) {
 			System.out.println("updateBoard()메소드 내부에서 예외발생 : " + e.toString());
@@ -226,54 +248,90 @@ public class BoardDAO {
 			freeResource();
 		}
 
-		return check;
+		return 0;
 	}// updateBoard
-
-	public void reInsertBoard(BoardBean boardBean) {
-		String sql = "";
-		int num = 0;
-
+	
+	public int deleteBoard(int boardNum, String boardPw) {
+		String sql = "select boardPw from board where boardNum=?";
+		
 		try {
-
 			conn = getConnection();
-			sql = "select max(boardNum) from board";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNum);
 			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				num = rs.getInt(1) + 1;
-			} else {
-				num = 1;
+			if (rs.next()) {				
+				if(boardPw.equals(rs.getString("boardPw"))) {
+					sql = "delete from board where boardNum=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, boardNum);
+					return pstmt.executeUpdate();
+				}else {
+					return -1;
+				}
 			}
-
-			sql = "update board set boardRe_seq=boardRe_seq+1 where boardRe_ref=? and boardRe_seq>?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardBean.getBoardRe_ref());
-			pstmt.setInt(2, boardBean.getBoardRe_seq());
-			pstmt.executeUpdate();
-
-			sql = "insert into board values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			pstmt.setString(2, boardBean.getUserId());
-			pstmt.setString(3, boardBean.getUserName());
-			pstmt.setString(4, boardBean.getBoardPw());
-			pstmt.setString(5, boardBean.getBoardSubject());
-			pstmt.setString(6, boardBean.getBoardContent());
-			pstmt.setString(7, boardBean.getBoardFile());
-			pstmt.setInt(8, boardBean.getBoardRe_ref());
-			pstmt.setInt(9, boardBean.getBoardRe_lev() + 1);
-			pstmt.setInt(10, boardBean.getBoardRe_seq() + 1);
-			pstmt.setInt(11, boardBean.getBoardCount());
-			pstmt.setTimestamp(12, boardBean.getBoardDate());
-			pstmt.setString(13, boardBean.getBoardIp());
-			pstmt.executeUpdate();
-
 		} catch (Exception e) {
-			System.out.println("reInsertBoard()메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("deleteBoard()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
+		
+		return 0;
+	}// deleteBoard
+
+	public int reInsertBoard(BoardBean boardBean) {
+		String sql = "";
+		int num = 0;
+
+		if(boardBean.getBoardContent()==null || boardBean.getBoardContent().equals("")) {
+			return -2;
+		}else if(boardBean.getBoardPw()==null || boardBean.getBoardPw().equals("")) {
+			return -3;
+		}else {
+			try {
+	
+				conn = getConnection();
+				sql = "select max(boardNum) from board";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+	
+				if (rs.next()) {
+					num = rs.getInt(1) + 1;
+				} else {
+					num = 1;
+				}
+	
+				sql = "update board set boardRe_seq=boardRe_seq+1 where boardRe_ref=? and boardRe_seq>?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, boardBean.getBoardRe_ref());
+				pstmt.setInt(2, boardBean.getBoardRe_seq());
+				pstmt.executeUpdate();
+	
+
+				sql = "insert into board(boardNum,userId,userName,boardPw,boardSubject,boardContent,boardFile,boardRe_ref,boardRe_lev,boardRe_seq,boardCount,boardDate,boardIp)"
+						+ "values(?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+	
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				pstmt.setString(2, boardBean.getUserId());
+				pstmt.setString(3, boardBean.getUserName());
+				pstmt.setString(4, boardBean.getBoardPw());
+				pstmt.setString(5, boardBean.getBoardSubject());
+				pstmt.setString(6, boardBean.getBoardContent());
+				pstmt.setString(7, boardBean.getBoardFile());
+				pstmt.setInt(8, boardBean.getBoardRe_ref());
+				pstmt.setInt(9, boardBean.getBoardRe_lev() + 1);
+				pstmt.setInt(10, boardBean.getBoardRe_seq() + 1);
+				pstmt.setInt(11, 0);
+				pstmt.setString(12, boardBean.getBoardIp());
+				
+				return pstmt.executeUpdate();	
+			} catch (Exception e) {
+				System.out.println("reInsertBoard()메소드 내부에서 예외발생 : " + e.toString());
+			} finally {
+				freeResource();
+			}
+		}
+		return 0;
 	}// reInsertBoard
 
 	public int getCount(String search) {
