@@ -73,7 +73,6 @@ public class MemberDAO {
 	public int idCheck(String userId) {
 
 		String sql = "";
-		int check = 0;
 
 		try {
 			
@@ -84,9 +83,7 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				check = 1;
-			} else {
-				check = 0;
+				return 1;
 			}
 			
 		} catch (Exception e) {
@@ -95,7 +92,7 @@ public class MemberDAO {
 			freeResource();
 		}
 
-		return check;
+		return 0;
 		
 	}//idCheck()
 
@@ -103,8 +100,6 @@ public class MemberDAO {
 		
 		String sql = "select * from member where userId = ?";
 		
-		int check = -1;
-
 		try {
 			
 			conn = getConnection();
@@ -114,21 +109,20 @@ public class MemberDAO {
 
 			if (rs.next()) {
 				if (userPw.equals(rs.getString("userPw"))) {
-					check = 1;
+					return 1;
 				} else {
-					check = 0;
+					return -1;
 				}
-			} else {
-				check = -1;
+			}else {
+				return -2;
 			}
-
 		} catch (Exception e) {
 			System.out.println("userCheck메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
 
-		return check;
+		return 0;
 		
 	}//userCheck()
 
@@ -172,8 +166,6 @@ public class MemberDAO {
 		
 		String sql = "select * from member where userId = ?";
 		
-		int result = 0;
-
 		try {
 			
 			conn = getConnection();
@@ -194,9 +186,9 @@ public class MemberDAO {
 					pstmt.setString(6, memberBean.getUserPhone());
 					pstmt.setString(7, memberBean.getUserId());
 					
-					result = pstmt.executeUpdate(); 
+					return pstmt.executeUpdate(); 
 				}else {
-					result = -1;
+					return -1;
 				}
 			}
 
@@ -206,15 +198,13 @@ public class MemberDAO {
 			freeResource();
 		}
 		
-		return result;
+		return 0;
 
 	}//updateMember
 	
 	public int updatePassword(String userId, String userPw, String newPw) {
 		
 		String sql = "select * from member where userId = ?";
-		
-		int result = 0;
 		
 		try {
 			
@@ -231,9 +221,9 @@ public class MemberDAO {
 					pstmt.setString(1, newPw);
 					pstmt.setString(2, userId);
 					
-					result = pstmt.executeUpdate(); 
+					return pstmt.executeUpdate(); 
 				}else {
-					result = -1;
+					return -1;
 				}
 			}
 			
@@ -243,16 +233,14 @@ public class MemberDAO {
 			freeResource();
 		}
 		
-		return result;
+		return 0;
 		
 	}//updatePassword
 	
 	public int deleteMember(String userId, String userPw) {
 		
 		String sql = "select * from member where userId = ?";
-		
-		int result = 0;
-		
+				
 		try {
 			
 			conn = getConnection();
@@ -267,9 +255,9 @@ public class MemberDAO {
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, userId);
 					
-					result = pstmt.executeUpdate(); 
+					return pstmt.executeUpdate(); 
 				}else {
-					result = -1;
+					return -1;
 				}
 			}
 			
@@ -279,7 +267,7 @@ public class MemberDAO {
 			freeResource();
 		}
 		
-		return result;
+		return 0;
 		
 	}//deleteMember
 	
