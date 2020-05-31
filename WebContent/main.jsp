@@ -12,7 +12,7 @@
 				<h2><%=pageName%></h2>
 			</div>
 		</div>
-		</div>
-		<jsp:include page="./include/footer.jsp" />
+	</section>
+	<jsp:include page="./include/footer.jsp" />
 </body>
 </html>

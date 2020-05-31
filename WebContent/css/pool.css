@@ -1,0 +1,44 @@
+.deleteform {
+  width: 100%;
+  max-width: 510px;
+  margin: auto; }
+
+.table {
+  border-top: 2px solid #999;
+  border-bottom: 1px solid #dee2e6; }
+  .table th {
+    white-space: nowrap; }
+  .table thead th:not(:last-child) {
+    position: relative; }
+    .table thead th:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 1px;
+      height: 12px;
+      margin: auto;
+      background-color: #999; }
+  .table tbody th:not(:last-child) {
+    position: relative; }
+    .table tbody th:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 16px;
+      background-color: #dee2e6; }
+
+.break-all {
+  word-break: break-all; }
+
+@media (min-width: 992px) {
+  .d-lg-table-column-group {
+    display: table-column-group !important; }
+
+  .d-lg-table-header-group {
+    display: table-header-group !important; } }
+
+/*# sourceMappingURL=pool.css.map */

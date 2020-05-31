@@ -17,16 +17,16 @@
 		<div class="collapse navbar-collapse justify-content-between" id="navbarGnb">
 			<ul class="nav">
 				<li class="nav-item">
-					<a class="nav-link <%if (pageId.equals("map")) out.print("active");%>" href="<%=contextPath%>/map/map.jsp">수영장 지도</a>
+					<a class="nav-link <%if (pageId.equals("map")) out.print("active");%>" href="<%=contextPath%>/pool/map.jsp">수영장 지도</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link <%if (pageId.equals("info")) out.print("active");%>" href="<%=contextPath%>/board/info.jsp">수영장 정보</a>
+					<a class="nav-link <%if (pageId.equals("pool")) out.print("active");%>" href="<%=contextPath%>/pool/pool.jsp">수영장 정보</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link <%if (pageId.equals("review")) out.print("active");%>" href="<%=contextPath%>/board/review.jsp">수영장 후기</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link <%if (pageId.equals("swimming")) out.print("active");%>" href="<%=contextPath%>/board/swimming.jsp">수영 정보</a>
+					<a class="nav-link <%if (pageId.equals("info")) out.print("active");%>" href="<%=contextPath%>/board/info.jsp">수영 정보</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link <%if (pageId.equals("board")) out.print("active");%>" href="<%=contextPath%>/board/board.jsp">수다방</a>
