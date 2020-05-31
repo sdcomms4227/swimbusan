@@ -5,22 +5,22 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String pageName = "수다방";
-	request.setAttribute("pageName", pageName);
+	String boardId = (String) session.getAttribute("boardId");
+	String pageName = (String) session.getAttribute("boardName");
 	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
 %>
 <jsp:include page="/include/head.jsp" />
 <%
-	request.setCharacterEncoding("UTF-8");
 
 	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 	String pageNum = request.getParameter("pageNum");
 
 	BoardDAO boardDao = new BoardDAO();
 
-	boardDao.updateCount(boardNum);
+	boardDao.updateCount(boardNum, boardId);
 
-	BoardBean boardBean = boardDao.getBoard(boardNum);
+	BoardBean boardBean = boardDao.getBoard(boardNum, boardId);
 
 	int readNum = boardBean.getBoardNum();
 	int readCount = boardBean.getBoardCount();
@@ -30,6 +30,7 @@
 	String readContent = "";
 	String readBoardFile = boardBean.getBoardFile();
 	String readId = boardBean.getUserId();
+	String readCategory = boardBean.getBoardCategory();
 
 	if (boardBean.getBoardContent() != null) {
 		readContent = boardBean.getBoardContent().replace("\r\n", "<br>");
@@ -62,7 +63,16 @@
 					<col style="width: 8%" />
 				</colgroup>
 				<tr>
-					<td colspan="6" class="h4 p-3 readsubject"><%=readSubject%></td>
+					<td colspan="6" class="h4 p-3 readsubject">
+						<%=readSubject%>
+						<%
+							if(readCategory!=null && !readCategory.equals("")){
+						%>
+							<small class="text-muted">[<%=readCategory%>]</small>
+						<%
+							}
+						%>
+					</td>
 				</tr>
 				<tr class="d-none d-lg-table-row">
 					<th class="align-middle">작성자</th>
@@ -100,7 +110,7 @@
 				<% } %>
 			</table>
 			<div class="text-center my-5">
-				<button type="button" class="btn btn-secondary" onclick="location.href='board.jsp?pageNum=<%=pageNum%>'">목록</button>
+				<button type="button" class="btn btn-secondary" onclick="location.href='<%=boardId%>.jsp?pageNum=<%=pageNum%>'">목록</button>
 				<%
 					if (userId != null && userId.equals(readId)) {
 				%>
@@ -111,7 +121,7 @@
 					if (userId != null) {
 				%>
 				<button type="button" class="btn btn-primary"
-					onclick="location.href='reWrite.jsp?boardSubject=<%=readSubject%>&boardNum=<%=readNum%>&boardRe_ref=<%=readRe_ref%>&boardRe_lev=<%=readRe_lev%>&boardRe_seq=<%=readRe_seq%>'">답글쓰기</button>
+					onclick="location.href='reWrite.jsp?boardCategory=<%=readCategory%>&boardSubject=<%=readSubject%>&boardNum=<%=readNum%>&boardRe_ref=<%=readRe_ref%>&boardRe_lev=<%=readRe_lev%>&boardRe_seq=<%=readRe_seq%>'">답글쓰기</button>
 				<%
 					}
 				%>

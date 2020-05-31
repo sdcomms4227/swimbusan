@@ -7,15 +7,15 @@
 <%@page import="board.BoardBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String contextPath = request.getContextPath();
+	String boardId = (String) session.getAttribute("boardId");
 	String userId = (String) session.getAttribute("userId");
+	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
+	String encoding = "UTF-8";
 	
 	if (userId == null) {
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
-
-	request.setCharacterEncoding("UTF-8");
-	String encoding = "UTF-8";
 	
 	BoardBean boardBean = new BoardBean(); 
 	
@@ -51,6 +51,8 @@
 					boardBean.setUserName(fieldString);
 				}else if(fieldName.equals("boardPw")){
 					boardBean.setBoardPw(fieldString);
+				}else if(fieldName.equals("boardCategory")){
+					boardBean.setBoardCategory(fieldString);
 				}else if(fieldName.equals("boardSubject")){
 					boardBean.setBoardSubject(fieldString);
 				}else if(fieldName.equals("boardContent")){
@@ -107,13 +109,13 @@
 
 	BoardDAO boardDAO = new BoardDAO();
 
-	int result = boardDAO.reInsertBoard(boardBean);
+	int result = boardDAO.reInsertBoard(boardBean, boardId);
 
 	if (result == 1) {
 %>
 	<script>
 		alert("답글이 정상적으로 등록었습니다.");
-		location.href = "board.jsp";
+		location.href = "<%=boardId%>.jsp";
 	</script>
 <%
 	}else if(result == -1){

@@ -6,30 +6,29 @@
 <%
 	String pageName = "수다방";
 	request.setAttribute("pageName", pageName);
+	session.setAttribute("boardName", pageName);
 	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
 %>
 <jsp:include page="/include/head.jsp" />
 <%
-	request.setCharacterEncoding("UTF-8");
-
+	String boardId = (String) request.getAttribute("pageId");
+	session.setAttribute("boardId", boardId);
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+	String category = (request.getParameter("category") != null) ? request.getParameter("category") : "";
 
 	BoardDAO boardDao = new BoardDAO();
 
-	int count = boardDao.getBoardCount(search);
-
+	int count = boardDao.getBoardCount(search, category, boardId);
 	int pageSize = 10;
-
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
-
 	int currentPage = Integer.parseInt(pageNum);
-
 	int startRow = (currentPage - 1) * pageSize;
-
+	
 	List<BoardBean> list = null;
 
 	if (count > 0) {
-		list = boardDao.getBoardList(startRow, pageSize, search);
+		list = boardDao.getBoardList(search, category, startRow, pageSize, boardId);
 	}
 %>
 <body>
@@ -44,18 +43,18 @@
 		<article class="mt-3">
 			<table class="table table-hover text-center">
 				<colgroup class="d-none d-lg-table-column-group">
+					<col style="width:80px"/>
 					<col />
-					<col style="width:60%"/>
-					<col />
-					<col />
-					<col />
+					<col style="width:100px"/>
+					<col style="width:100px"/>
+					<col style="width:100px"/>
 				</colgroup>
 				<thead class="thead-light d-none d-lg-table-header-group">
 					<tr>
 						<th>번호</th>
 						<th>제목</th>
-						<th>글쓴이</th>
-						<th>날짜</th>
+						<th>작성자</th>
+						<th>작성일</th>
 						<th>조회수</th>
 					</tr>
 				</thead>
@@ -109,19 +108,32 @@
 				</tbody>
 			</table>
 			<div class="row  my-5">
-				<div class="col-12 col-lg-4">
+				<div class="col-12 col-lg-8">
+					<form action="<%=boardId%>.jsp" class="form-inline justify-content-center justify-content-lg-start">
+						<input type="hidden" name="category" value="" />
+						<div class="input-group">
+							<input type="text" name="search" size="24" maxlength="24" class="form-control">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-secondary">검색</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-12 col-lg-4 mt-3 mt-lg-0">
 					<%
 						String userId = (String) session.getAttribute("userId");
 						if (userId != null) {
 					%>
-					<div class="form-group text-center text-lg-left">
+					<div class="form-group text-center text-lg-right">
 						<button type="button" class="btn btn-secondary" onclick="location.href='write.jsp'">글쓰기</button>
 					</div>
 					<%
 						}
 					%>
 				</div>
-				<div class="col-12 col-lg-4">
+			</div>
+			<div class="row">
+				<div class="col-12">				
 					<ul class="pagination justify-content-center">
 						<%
 							if (count > 0) {
@@ -137,36 +149,26 @@
 								String disabled1 = (startPage > pageBlock) ? "" : "disabled";
 						%>
 			   				<li class="page-item <%=disabled1%>">
-								<a class="page-link" href="board.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>">이전</a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>">이전</a>
 							</li>
 						<%
 								for (int i = startPage; i <= endPage; i++) {
 									String active = (pageNum == null && i == 1 || Integer.parseInt(pageNum) == i) ? "active" : "";
 						%>
 			   				<li class="page-item <%=active%>">
-								<a class="page-link" href="board.jsp?pageNum=<%=i%>&search=<%=search%>"><%=i%></a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=i%>&search=<%=search%>"><%=i%></a>
 							</li>
 						<%
 							}
 							String disabled2 = (endPage < pageCount) ? "" : "disabled";
 						%>
 			   				<li class="page-item <%=disabled2%>">
-								<a class="page-link" href="board.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">다음</a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">다음</a>
 							</li>
 						<%
 							}
 						%>
 					</ul>
-				</div>
-				<div class="col-12 col-lg-4">
-					<form action="board.jsp" class="form-inline justify-content-center justify-content-lg-end">
-						<div class="input-group">
-							<input type="text" name="search" size="24" maxlength="24" class="form-control">
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-secondary">검색</button>
-							</div>
-						</div>
-					</form>
 				</div>
 			</div>
 		</article>

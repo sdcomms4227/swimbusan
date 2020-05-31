@@ -7,16 +7,16 @@
 <%@page import="board.BoardBean"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String contextPath = request.getContextPath();
+	String boardId = (String) session.getAttribute("boardId");
 	String userId = (String) session.getAttribute("userId");
+	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
+	String encoding = "UTF-8";
 	
 	if (userId == null) {
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
 
-	request.setCharacterEncoding("UTF-8");
-	String encoding = "UTF-8";
-	
 	String pageNum = "";
 	String boardNum = "";
 	
@@ -54,6 +54,8 @@
 					boardBean.setUserName(fieldString);
 				}else if(fieldName.equals("boardPw")){
 					boardBean.setBoardPw(fieldString);
+				}else if(fieldName.equals("boardCategory")){
+					boardBean.setBoardCategory(fieldString);
 				}else if(fieldName.equals("boardSubject")){
 					boardBean.setBoardSubject(fieldString);
 				}else if(fieldName.equals("boardContent")){
@@ -106,7 +108,7 @@
 		
 	BoardDAO boardDAO = new BoardDAO();
 
-	int result = boardDAO.updateBoard(boardBean);
+	int result = boardDAO.updateBoard(boardBean, boardId);
 
 	if (result == 1) {
 %>

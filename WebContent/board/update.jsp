@@ -5,29 +5,29 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String pageName = "수다방";
-	request.setAttribute("pageName", pageName);
+	String boardId = (String) session.getAttribute("boardId");
+	String pageName = (String) session.getAttribute("boardName");
+	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
 %>
 <jsp:include page="/include/head.jsp" />
 <%
-	String contextPath = request.getContextPath();
 	String userId = (String) session.getAttribute("userId");
 
 	if (userId == null) {
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
 
-	request.setCharacterEncoding("UTF-8");
-
 	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 	String pageNum = request.getParameter("pageNum");
 
 	BoardDAO boardDAO = new BoardDAO();
 
-	BoardBean boardBean = boardDAO.getBoard(boardNum);
+	BoardBean boardBean = boardDAO.getBoard(boardNum, boardId);
 
 	int updateNum = boardBean.getBoardNum();
 	String updateName = boardBean.getUserName();
+	String updateCategory = boardBean.getBoardCategory();
 	String updateSubject = boardBean.getBoardSubject();
 	String updateContent = "";
 	String updateId = boardBean.getUserId();
@@ -67,6 +67,36 @@
 							<input class="form-control" type="password" name="boardPw" id="boardPw" required />
 						</td>
 					</tr>
+					<%
+						if(boardId.equals("review")){
+					%>
+					<tr>
+						<th class="align-middle">
+							<label for="boardCategory" class="m-0">수영장</label>
+						</th>
+						<td>
+							<select class="form-control" name="boardCategory" id="boardCategory" value="<%=updateCategory%>" required>
+								<option value="">선택해주세요.</option>
+								<option value="사직수영장" <%if(updateCategory.equals("사직수영장")) out.print("selected"); %>>사직수영장</option>
+								<option value="강서구국민체육센터" <%if(updateCategory.equals("강서구국민체육센터")) out.print("selected"); %>>강서구국민체육센터</option>
+								<option value="금정국민체육센터" <%if(updateCategory.equals("금정국민체육센터")) out.print("selected"); %>>금정국민체육센터</option>
+								<option value="기장군국민체육센터" <%if(updateCategory.equals("기장군국민체육센터")) out.print("selected"); %>>기장군국민체육센터</option>
+								<option value="남구국민체육센터" <%if(updateCategory.equals("남구국민체육센터")) out.print("selected"); %>>남구국민체육센터</option>
+								<option value="동구국민체육문예센터" <%if(updateCategory.equals("동구국민체육문예센터")) out.print("selected"); %>>동구국민체육문예센터</option>
+								<option value="동래구국민체육센터" <%if(updateCategory.equals("동래구국민체육센터")) out.print("selected"); %>>동래구국민체육센터</option>
+								<option value="부산진구국민체육센터" <%if(updateCategory.equals("부산진구국민체육센터")) out.print("selected"); %>>부산진구국민체육센터</option>
+								<option value="북구국민체육센터" <%if(updateCategory.equals("북구국민체육센터")) out.print("selected"); %>>북구국민체육센터</option>
+								<option value="사상구국민체육센터" <%if(updateCategory.equals("사상구국민체육센터")) out.print("selected"); %>>사상구국민체육센터</option>
+								<option value="사하구국민체육센터" <%if(updateCategory.equals("사하구국민체육센터")) out.print("selected"); %>>사하구국민체육센터</option>
+								<option value="부산국민체육센터" <%if(updateCategory.equals("부산국민체육센터")) out.print("selected"); %>>부산국민체육센터</option>
+								<option value="수영구국민체육센터" <%if(updateCategory.equals("수영구국민체육센터")) out.print("selected"); %>>수영구국민체육센터</option>
+								<option value="연제구국민체육센터" <%if(updateCategory.equals("연제구국민체육센터")) out.print("selected"); %>>연제구국민체육센터</option>
+								<option value="영도국민체육센터" <%if(updateCategory.equals("영도국민체육센터")) out.print("selected"); %>>영도국민체육센터</option>
+								<option value="기타" <%if(updateCategory.equals("기타")) out.print("selected"); %>>기타</option>
+							</select>
+						</td>
+					</tr>
+					<% } %>
 					<tr>
 						<th class="align-middle">
 							<label for="boardSubject" class="m-0">제목</label>

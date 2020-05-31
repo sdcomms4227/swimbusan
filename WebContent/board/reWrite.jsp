@@ -3,12 +3,13 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String pageName = "수다방";
-	request.setAttribute("pageName", pageName);
+	String boardId = (String) session.getAttribute("boardId");
+	String pageName = (String) session.getAttribute("boardName");
+	String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8");
 %>
 <jsp:include page="/include/head.jsp" />
 <%
-	String contextPath = request.getContextPath();
 	String userId = (String) session.getAttribute("userId");
 	String userName = (String) session.getAttribute("userName");
 	
@@ -16,8 +17,7 @@
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
 	
-	request.setCharacterEncoding("UTF-8");
-
+	String boardCategory = request.getParameter("boardCategory");
 	String boardSubject = request.getParameter("boardSubject");
 	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 	int boardRe_ref = Integer.parseInt(request.getParameter("boardRe_ref"));
@@ -60,6 +60,18 @@
 							<input class="form-control" type="password" name="boardPw" required />
 						</td>
 					</tr>
+					<%
+						if(boardId.equals("review")){
+					%>
+					<tr>
+						<th class="align-middle">
+							<label for="boardCategory" class="m-0">수영장</label>
+						</th>
+						<td>
+							<input class="form-control" type="text" name="boardCategory" id="boardCategory" value="<%=boardCategory%>" readonly />
+						</td>
+					</tr>
+					<% } %>
 					<tr>
 						<th class="align-middle">
 							<label for="userName" class="m-0">제목</label>

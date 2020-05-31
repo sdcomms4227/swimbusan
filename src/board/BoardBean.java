@@ -17,6 +17,7 @@ public class BoardBean {
 	private int boardCount;
 	private Timestamp boardDate;
 	private String boardIp;
+	private String boardCategory;
 
 	public int getBoardNum() {
 		return boardNum;
@@ -120,6 +121,14 @@ public class BoardBean {
 
 	public void setBoardIp(String boardIp) {
 		this.boardIp = boardIp;
+	}
+	
+	public String getBoardCategory() {
+		return boardCategory;
+	}
+	
+	public void setBoardCategory(String boardCategory) {
+		this.boardCategory = boardCategory;
 	}
 
 }
