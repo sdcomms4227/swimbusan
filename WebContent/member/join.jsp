@@ -80,9 +80,9 @@
 				</div>
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<label for="userPhone" class="input-group-text">휴대폰2</label>
+						<label for="userPhone" class="input-group-text">휴대폰</label>
 					</div>
-					<input type="text" class="form-control" name="userPhone" id="userPhone" maxlength="13" placeholder="010-0000-0000">
+					<input type="tel" class="form-control" name="userPhone" id="userPhone" maxlength="13" placeholder="010-0000-0000">
 				</div>
 			</fieldset>
 			<div class="text-center my-5">
