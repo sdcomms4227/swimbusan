@@ -16,7 +16,7 @@
 %>
 	<script>
 		alert("정상적으로 삭제되었습니다.");
-		location.href = "<%=contextPath%>/board/<%=boardId%>.jsp?pageNum=<%=pageNum%>";
+		location.href = "<%=boardId%>.jsp?pageNum=<%=pageNum%>";
 	</script>
 <%
 	} else if (result == -1) {

@@ -46,7 +46,7 @@
 				fieldName = fileItem.getFieldName();
 				fieldString = fileItem.getString(encoding);
 				
-				System.out.println(fieldName + " = " + fieldString);
+// 				System.out.println(fieldName + " = " + fieldString);
 				
 				if(fieldName.equals("userId")){
 					boardBean.setUserId(fieldString);
@@ -73,11 +73,11 @@
 				fileName = fileItem.getName();
 				long fileSize = fileItem.getSize();
 
-				System.out.println(fieldName + " = " + fileName);
+// 				System.out.println(fieldName + " = " + fileName);
 				
-				System.out.println("파라미터명: " + fieldName);
-				System.out.println("파일명: " + fileName);
-				System.out.println("파일크기: " + fileSize + "bytes");
+// 				System.out.println("파라미터명: " + fieldName);
+// 				System.out.println("파일명: " + fileName);
+// 				System.out.println("파일크기: " + fileSize + "bytes");
 				
 				if(fileSize > 0) {
 					

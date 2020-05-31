@@ -60,7 +60,7 @@ public class BoardDAO {
 					num = 1;
 				}
 	
-				sql = "insert into " + boardId +"(boardNum,userId,userName,boardPw,boardSubject,boardContent,boardFile,boardRe_ref,boardRe_lev,boardRe_seq,boardCount,boardDate,boardIp)"
+				sql = "insert into " + boardId +"(boardNum,userId,userName,boardPw,boardSubject,boardContent,boardFile,boardRe_ref,boardRe_lev,boardRe_seq,boardCount,boardDate,boardIp,boardCategory)"
 						+ "values(?,?,?,?,?,?,?,?,?,?,?,now(),?,?)";
 	
 				pstmt = conn.prepareStatement(sql);
@@ -89,7 +89,7 @@ public class BoardDAO {
 		
 		return 0; 
 	}// insertBoard
-		
+
 	public int getBoardCount(String search, String category, String boardId) {
 		
 		String sql = "";
@@ -360,27 +360,4 @@ public class BoardDAO {
 		return 0;
 	}// reInsertBoard
 
-	public int getCount(String search, String boardId) {
-
-		int count = 0;
-		String sql = "";
-
-		try {
-			conn = getConnection();
-			sql = "select count(*) from " + boardId + " where boardSubject like ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + search + "%");
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				count = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			System.out.println("getCount()메소드 내부에서 예외발생 : " + e.toString());
-		} finally {
-			freeResource();
-		}
-		return count;
-
-	}
 }// BoardDAO

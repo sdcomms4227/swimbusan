@@ -12,6 +12,7 @@
 %>
 <jsp:include page="/include/head.jsp" />
 <%
+	String userId = (String) session.getAttribute("userId");
 	String boardId = (String) request.getAttribute("pageId");
 	session.setAttribute("boardId", boardId);
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
@@ -121,7 +122,6 @@
 				</div>
 				<div class="col-12 col-lg-4 mt-3 mt-lg-0">
 					<%
-						String userId = (String) session.getAttribute("userId");
 						if (userId != null) {
 					%>
 					<div class="form-group text-center text-lg-right">

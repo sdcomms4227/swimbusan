@@ -1,3 +1,5 @@
+<%@page import="pool.PoolBean"%>
+<%@page import="pool.PoolDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="board.BoardBean"%>
@@ -12,6 +14,7 @@
 %>
 <jsp:include page="/include/head.jsp" />
 <%
+	String userId = (String) session.getAttribute("userId");
 	String boardId = (String) request.getAttribute("pageId");
 	session.setAttribute("boardId", boardId);
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
@@ -30,6 +33,10 @@
 	if (count > 0) {
 		list = boardDao.getBoardList(search, category, startRow, pageSize, boardId);
 	}
+	
+	PoolDAO poolDAO = new PoolDAO();	
+	List<PoolBean> cateList = poolDAO.getPoolNameList();
+	
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -120,24 +127,18 @@
 			<div class="row  my-5">
 				<div class="col-12 col-lg-8">
 					<form action="<%=boardId%>.jsp" class="form-inline justify-content-center justify-content-lg-start">
-						<div class="input-group mb-2 mb-sm-0 mr-sm-2">
+						<div class="input-group mb-2 mb-sm-0 mr-sm-2">						
 							<select class="form-control" name="category" onchange="this.form.submit()">
-								<option value="">전체보기</option>
-								<option value="사직수영장" <%if(category.equals("사직수영장")) out.print("selected"); %>>사직수영장</option>
-								<option value="강서구국민체육센터" <%if(category.equals("강서구국민체육센터")) out.print("selected"); %>>강서구국민체육센터</option>
-								<option value="금정국민체육센터" <%if(category.equals("금정국민체육센터")) out.print("selected"); %>>금정국민체육센터</option>
-								<option value="기장군국민체육센터" <%if(category.equals("기장군국민체육센터")) out.print("selected"); %>>기장군국민체육센터</option>
-								<option value="남구국민체육센터" <%if(category.equals("남구국민체육센터")) out.print("selected"); %>>남구국민체육센터</option>
-								<option value="동구국민체육문예센터" <%if(category.equals("동구국민체육문예센터")) out.print("selected"); %>>동구국민체육문예센터</option>
-								<option value="동래구국민체육센터" <%if(category.equals("동래구국민체육센터")) out.print("selected"); %>>동래구국민체육센터</option>
-								<option value="부산진구국민체육센터" <%if(category.equals("부산진구국민체육센터")) out.print("selected"); %>>부산진구국민체육센터</option>
-								<option value="북구국민체육센터" <%if(category.equals("북구국민체육센터")) out.print("selected"); %>>북구국민체육센터</option>
-								<option value="사상구국민체육센터" <%if(category.equals("사상구국민체육센터")) out.print("selected"); %>>사상구국민체육센터</option>
-								<option value="사하구국민체육센터" <%if(category.equals("사하구국민체육센터")) out.print("selected"); %>>사하구국민체육센터</option>
-								<option value="부산국민체육센터" <%if(category.equals("부산국민체육센터")) out.print("selected"); %>>부산국민체육센터</option>
-								<option value="수영구국민체육센터" <%if(category.equals("수영구국민체육센터")) out.print("selected"); %>>수영구국민체육센터</option>
-								<option value="연제구국민체육센터" <%if(category.equals("연제구국민체육센터")) out.print("selected"); %>>연제구국민체육센터</option>
-								<option value="영도국민체육센터" <%if(category.equals("영도국민체육센터")) out.print("selected"); %>>영도국민체육센터</option>
+								<option value="">전체보기</option>									
+								<%
+									for(int i=0; i<cateList.size(); i++){
+										PoolBean poolBean = cateList.get(i);
+										String poolName = poolBean.getPoolName();
+								%>
+									<option value="<%=poolName%>" <%if(category.equals(poolName)) out.print("selected"); %>><%=poolName%></option>									
+								<%
+									}
+								%>
 								<option value="기타" <%if(category.equals("기타")) out.print("selected"); %>>기타</option>
 							</select>
 						</div>
@@ -151,7 +152,6 @@
 				</div>
 				<div class="col-12 col-lg-4 mt-3 mt-lg-0">
 					<%
-						String userId = (String) session.getAttribute("userId");
 						if (userId != null) {
 					%>
 					<div class="form-group text-center text-lg-right">
@@ -179,21 +179,21 @@
 								String disabled1 = (startPage > pageBlock) ? "" : "disabled";
 						%>
 			   				<li class="page-item <%=disabled1%>">
-								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>">이전</a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage - pageBlock%>&search=<%=search%>&category=<%=category%>">이전</a>
 							</li>
 						<%
 								for (int i = startPage; i <= endPage; i++) {
 									String active = (pageNum == null && i == 1 || Integer.parseInt(pageNum) == i) ? "active" : "";
 						%>
 			   				<li class="page-item <%=active%>">
-								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=i%>&search=<%=search%>"><%=i%></a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=i%>&search=<%=search%>&category=<%=category%>"><%=i%></a>
 							</li>
 						<%
 							}
 							String disabled2 = (endPage < pageCount) ? "" : "disabled";
 						%>
 			   				<li class="page-item <%=disabled2%>">
-								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">다음</a>
+								<a class="page-link" href="<%=boardId%>.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>&category=<%=category%>">다음</a>
 							</li>
 						<%
 							}

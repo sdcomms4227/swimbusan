@@ -120,16 +120,22 @@
 					}
 					if (userId != null) {
 				%>
-				<button type="button" class="btn btn-primary"
-					onclick="location.href='reWrite.jsp?boardCategory=<%=readCategory%>&boardSubject=<%=readSubject%>&boardNum=<%=readNum%>&boardRe_ref=<%=readRe_ref%>&boardRe_lev=<%=readRe_lev%>&boardRe_seq=<%=readRe_seq%>'">답글쓰기</button>
+				<button type="button" class="btn btn-primary" onclick="document.reWriteform.submit()">답글쓰기</button>
 				<%
 					}
 				%>
-			</div>
+			</div>			
 		</article>
-		<!-- 게시판 -->
+		<!-- 게시판 -->				
+		<form action="reWrite.jsp" method="post" name="reWriteform">
+			<input type="hidden" name="boardCategory" value="<%=readCategory%>" />
+			<input type="hidden" name="boardSubject" value="<%=readSubject%>" />
+			<input type="hidden" name="boardNum" value="<%=readNum%>" />
+			<input type="hidden" name="boardRe_ref" value="<%=readRe_ref%>" />
+			<input type="hidden" name="boardRe_lev" value="<%=readRe_lev%>" />
+			<input type="hidden" name="boardRe_seq" value="<%=readRe_seq%>" />
+		</form>
 	</section>
 	<jsp:include page="/include/footer.jsp" />
-	
 </body>
 </html>

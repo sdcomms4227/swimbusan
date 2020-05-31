@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="pool.PoolBean"%>
+<%@page import="pool.PoolDAO"%>
 <%@page import="board.BoardBean"%>
 <%@page import="board.BoardDAO"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -15,6 +18,9 @@
 	if (userId == null) {
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
+
+	PoolDAO poolDAO = new PoolDAO();	
+	List<PoolBean> cateList = poolDAO.getPoolNameList();
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -57,22 +63,16 @@
 						</th>
 						<td>
 							<select class="form-control" name="boardCategory" id="boardCategory" required>
-								<option value="">선택해주세요.</option>
-								<option value="사직수영장">사직수영장</option>
-								<option value="강서구국민체육센터">강서구국민체육센터</option>
-								<option value="금정국민체육센터">금정국민체육센터</option>
-								<option value="기장군국민체육센터">기장군국민체육센터</option>
-								<option value="남구국민체육센터">남구국민체육센터</option>
-								<option value="동구국민체육문예센터">동구국민체육문예센터</option>
-								<option value="동래구국민체육센터">동래구국민체육센터</option>
-								<option value="부산진구국민체육센터">부산진구국민체육센터</option>
-								<option value="북구국민체육센터">북구국민체육센터</option>
-								<option value="사상구국민체육센터">사상구국민체육센터</option>
-								<option value="사하구국민체육센터">사하구국민체육센터</option>
-								<option value="부산국민체육센터">부산국민체육센터</option>
-								<option value="수영구국민체육센터">수영구국민체육센터</option>
-								<option value="연제구국민체육센터">연제구국민체육센터</option>
-								<option value="영도국민체육센터">영도국민체육센터</option>
+								<option value="">선택하세요</option>									
+								<%
+									for(int i=0; i<cateList.size(); i++){
+										PoolBean poolBean = cateList.get(i);
+										String poolName = poolBean.getPoolName();
+								%>
+									<option value="<%=poolName%>"><%=poolName%></option>									
+								<%
+									}
+								%>
 								<option value="기타">기타</option>
 							</select>
 						</td>

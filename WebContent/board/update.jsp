@@ -1,3 +1,5 @@
+<%@page import="pool.PoolBean"%>
+<%@page import="pool.PoolDAO"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
@@ -18,24 +20,22 @@
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
 
-	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 	String pageNum = request.getParameter("pageNum");
+	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 
 	BoardDAO boardDAO = new BoardDAO();
-
 	BoardBean boardBean = boardDAO.getBoard(boardNum, boardId);
 
 	int updateNum = boardBean.getBoardNum();
-	String updateName = boardBean.getUserName();
-	String updateCategory = boardBean.getBoardCategory();
-	String updateSubject = boardBean.getBoardSubject();
-	String updateContent = "";
-	String updateId = boardBean.getUserId();
-	String updateBoardFile = boardBean.getBoardFile();
+	String updateName = (boardBean.getUserName() != null) ? boardBean.getUserName() : "";
+	String updateCategory = (boardBean.getBoardCategory() != null) ? boardBean.getBoardCategory() : "";
+	String updateSubject = (boardBean.getBoardSubject() != null) ? boardBean.getBoardSubject() : "";
+	String updateContent = (boardBean.getBoardContent() != null) ? boardBean.getBoardContent().replace("<br>", "\r\n") : "";
+	String updateId = (boardBean.getUserId() != null) ? boardBean.getUserId() : "";
+	String updateBoardFile = (boardBean.getBoardFile() != null) ? boardBean.getBoardFile() : "";
 
-	if (boardBean.getBoardContent() != null) {
-		updateContent = boardBean.getBoardContent().replace("\r\n", "<br>");
-	}
+	PoolDAO poolDAO = new PoolDAO();	
+	List<PoolBean> cateList = poolDAO.getPoolNameList();
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -76,22 +76,16 @@
 						</th>
 						<td>
 							<select class="form-control" name="boardCategory" id="boardCategory" value="<%=updateCategory%>" required>
-								<option value="">선택해주세요.</option>
-								<option value="사직수영장" <%if(updateCategory.equals("사직수영장")) out.print("selected"); %>>사직수영장</option>
-								<option value="강서구국민체육센터" <%if(updateCategory.equals("강서구국민체육센터")) out.print("selected"); %>>강서구국민체육센터</option>
-								<option value="금정국민체육센터" <%if(updateCategory.equals("금정국민체육센터")) out.print("selected"); %>>금정국민체육센터</option>
-								<option value="기장군국민체육센터" <%if(updateCategory.equals("기장군국민체육센터")) out.print("selected"); %>>기장군국민체육센터</option>
-								<option value="남구국민체육센터" <%if(updateCategory.equals("남구국민체육센터")) out.print("selected"); %>>남구국민체육센터</option>
-								<option value="동구국민체육문예센터" <%if(updateCategory.equals("동구국민체육문예센터")) out.print("selected"); %>>동구국민체육문예센터</option>
-								<option value="동래구국민체육센터" <%if(updateCategory.equals("동래구국민체육센터")) out.print("selected"); %>>동래구국민체육센터</option>
-								<option value="부산진구국민체육센터" <%if(updateCategory.equals("부산진구국민체육센터")) out.print("selected"); %>>부산진구국민체육센터</option>
-								<option value="북구국민체육센터" <%if(updateCategory.equals("북구국민체육센터")) out.print("selected"); %>>북구국민체육센터</option>
-								<option value="사상구국민체육센터" <%if(updateCategory.equals("사상구국민체육센터")) out.print("selected"); %>>사상구국민체육센터</option>
-								<option value="사하구국민체육센터" <%if(updateCategory.equals("사하구국민체육센터")) out.print("selected"); %>>사하구국민체육센터</option>
-								<option value="부산국민체육센터" <%if(updateCategory.equals("부산국민체육센터")) out.print("selected"); %>>부산국민체육센터</option>
-								<option value="수영구국민체육센터" <%if(updateCategory.equals("수영구국민체육센터")) out.print("selected"); %>>수영구국민체육센터</option>
-								<option value="연제구국민체육센터" <%if(updateCategory.equals("연제구국민체육센터")) out.print("selected"); %>>연제구국민체육센터</option>
-								<option value="영도국민체육센터" <%if(updateCategory.equals("영도국민체육센터")) out.print("selected"); %>>영도국민체육센터</option>
+								<option value="">전체보기</option>									
+								<%
+									for(int i=0; i<cateList.size(); i++){
+										PoolBean poolBean = cateList.get(i);
+										String poolName = poolBean.getPoolName();
+								%>
+									<option value="<%=poolName%>" <%if(updateCategory.equals(poolName)) out.print("selected"); %>><%=poolName%></option>									
+								<%
+									}
+								%>
 								<option value="기타" <%if(updateCategory.equals("기타")) out.print("selected"); %>>기타</option>
 							</select>
 						</td>
