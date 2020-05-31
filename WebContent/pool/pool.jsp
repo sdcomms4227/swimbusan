@@ -8,7 +8,7 @@
 	String contextPath = request.getContextPath();
 	request.setCharacterEncoding("UTF-8");
 %>
-<jsp:include page="/include/head.jsp" />
+<jsp:include page="../include/head.jsp" />
 <%
 	String userId = (String) session.getAttribute("userId");
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
@@ -29,7 +29,7 @@
 	}
 %>
 <body>
-	<jsp:include page="/include/header.jsp" />
+	<jsp:include page="../include/header.jsp" />
 	<section class="container body-container py-5">
 		<div class="row">
 			<div class="col-12 col-lg-4">
@@ -47,11 +47,13 @@
 					<col />
 					<col style="width:54px"/>
 					<col style="width:54px"/>
+					<col style="width:54px"/>
 				</colgroup>
 				<colgroup class="d-none d-lg-table-column-group">
 					<col style="width:240px"/>
 					<col />
 					<col style="width:160px"/>
+					<col style="width:120px"/>
 					<col style="width:120px"/>
 				</colgroup>
 				<thead class="thead-light d-none d-lg-table-header-group">
@@ -60,6 +62,7 @@
 						<th>주소</th>
 						<th>전화</th>
 						<th>홈페이지</th>
+						<th>지도보기</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,59 +83,65 @@
 									poolTel2 = poolTel.substring(0, idx);
 								}
 					%>
-					<tr onclick="toggleContent(this)" style="cursor:pointer">
-						<td class="align-middle text-left">
-							<%=poolName%>
-							<small class="d-block d-lg-none mt-1 text-muted"><%=poolAddress1%> <%=poolAddress2%></small>
-						</td>
-						<td class="align-middle d-none d-lg-table-cell text-left"><%=poolAddress1%> <%=poolAddress2%>
-						</td>
-						<td class="align-middle">
-							<a class="d-none d-lg-block" href="tel:<%=poolTel2%>" onclick="window.event.cancelBubble = true"><%=poolTel%></a>
-							<a class="h4 m-0 d-block d-lg-none" href="tel:<%=poolTel2%>" onclick="window.event.cancelBubble = true">
-								<svg class="bi bi-phone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M11 1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"/>
-								  <path fill-rule="evenodd" d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-								</svg>
-							</a>
-						</td>
-						<td class="align-middle">
-							<%
-								if (poolUrl != null && !poolUrl.equals("")) {
-							%>
-								<a class="h4 m-0" href="<%=poolUrl%>" target="_blank">
-									<svg class="bi bi-house-door" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									  <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
-									  <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<tr onclick="toggleContent(this)" style="cursor:pointer">
+							<td class="align-middle text-left">
+								<%=poolName%>
+								<small class="d-block d-lg-none mt-1 text-muted"><%=poolAddress1%> <%=poolAddress2%></small>
+							</td>
+							<td class="align-middle d-none d-lg-table-cell text-left"><%=poolAddress1%> <%=poolAddress2%></td>
+							<td class="align-middle">
+								<a class="d-none d-lg-block" href="tel:<%=poolTel2%>" onclick="window.event.cancelBubble = true"><%=poolTel%></a>
+								<a class="h4 m-0 d-block d-lg-none" href="tel:<%=poolTel2%>" onclick="window.event.cancelBubble = true">
+									<svg class="bi bi-phone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									  <path fill-rule="evenodd" d="M11 1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"/>
+									  <path fill-rule="evenodd" d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
 									</svg>
 								</a>
-							<%
-								}
-							%>
-						</td>
-					</tr>
-					<tr class="poolcontent" style="display:none">
-						<td colspan="4" class="py-5">
-							<div class="text-left break-all"><%=poolContent%></div>
-							<%
-								if (userId != null && userId.equals("admin")) {
-							%>
-								<div class="text-right mt-3">
-									<button type="button" class="btn btn-sm btn-warning" onclick="location.href='poolUpdate.jsp?pageNum=<%=pageNum%>&poolNum=<%=poolNum%>'">수정</button>
-									<button type="button" class="btn btn-sm btn-danger" onclick="location.href='poolDelete.jsp?pageNum=<%=pageNum%>&poolNum=<%=poolNum%>'">삭제</button>
-								</div>
-							<% 
-								}
-							%>
-						</td>
-					</tr>
+							</td>
+							<td class="align-middle">
+								<%
+									if (poolUrl != null && !poolUrl.equals("")) {
+								%>
+									<a class="h4 m-0" href="<%=poolUrl%>" target="_blank" onclick="window.event.cancelBubble = true">
+										<svg class="bi bi-house-door" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										  <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
+										  <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+										</svg>
+									</a>
+								<%
+									}
+								%>
+							</td>
+							<td class="align-middle">
+								<a class="h4 m-0" href="map.jsp?keyword=<%=poolName%>" onclick="window.event.cancelBubble = true">
+									<svg class="bi bi-map" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									  <path fill-rule="evenodd" d="M15.817.613A.5.5 0 0 1 16 1v13a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 14.51l-4.902.98A.5.5 0 0 1 0 15V2a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0l4.902.98 4.902-.98a.5.5 0 0 1 .415.103zM10 2.41l-4-.8v11.98l4 .8V2.41zm1 11.98l4-.8V1.61l-4 .8v11.98zm-6-.8V1.61l-4 .8v11.98l4-.8z"/>
+									</svg>
+								</a>
+							</td>
+						</tr>
+						<tr class="poolcontent" style="display:none">
+							<td colspan="5" class="py-5">
+								<div class="text-left break-all"><%=poolContent%></div>
+								<%
+									if (userId != null && userId.equals("admin")) {
+								%>
+									<div class="text-right mt-3">
+										<button type="button" class="btn btn-sm btn-warning" onclick="location.href='poolUpdate.jsp?pageNum=<%=pageNum%>&poolNum=<%=poolNum%>'">수정</button>
+										<button type="button" class="btn btn-sm btn-danger" onclick="location.href='poolDelete.jsp?pageNum=<%=pageNum%>&poolNum=<%=poolNum%>'">삭제</button>
+									</div>
+								<% 
+									}
+								%>
+							</td>
+						</tr>
 					<%
 							}
 						} else {
 					%>
-					<tr>
-						<td colspan="4">등록된 수영장이 없습니다.</td>
-					</tr>
+						<tr>
+							<td colspan="4">등록된 수영장이 없습니다.</td>
+						</tr>
 					<%
 						}
 					%>
@@ -152,11 +161,11 @@
 				</div>
 				<div class="col-12 col-lg-4 mt-3 mt-lg-0">
 					<%
-						if (userId.equals("admin")) {
+						if (userId != null && userId.equals("admin")) {
 					%>
-					<div class="form-group text-center text-lg-right">
-						<button type="button" class="btn btn-secondary" onclick="location.href='poolWrite.jsp'">글쓰기</button>
-					</div>
+						<div class="form-group text-center text-lg-right">
+							<button type="button" class="btn btn-secondary" onclick="location.href='poolWrite.jsp'">글쓰기</button>
+						</div>
 					<%
 						}
 					%>
@@ -204,7 +213,7 @@
 		</article>
 		<!-- 게시판 -->
 	</section>
-	<jsp:include page="/include/footer.jsp" />
+	<jsp:include page="../include/footer.jsp" />
 	<script>
 		function toggleContent(obj){
 			$(obj).next().toggle();
