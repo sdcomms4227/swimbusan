@@ -4,7 +4,7 @@
 <%@page import="board.BoardDAO"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String pageName = "자유게시판";
+	String pageName = "갤러리";
 	request.setAttribute("pageName", pageName);
 	session.setAttribute("boardName", pageName);
 	String contextPath = request.getContextPath();
@@ -40,74 +40,34 @@
 				<h2><%=pageName%></h2>
 			</div>
 		</div>
+		<hr />
 		<!-- 게시판 -->
-		<article class="mt-3">
-			<table class="table table-hover text-center">
-				<colgroup class="d-none d-lg-table-column-group">
-					<col style="width:80px"/>
-					<col />
-					<col style="width:100px"/>
-					<col style="width:100px"/>
-					<col style="width:100px"/>
-				</colgroup>
-				<thead class="thead-light d-none d-lg-table-header-group">
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%
-						if (count > 0) {
-							for (int i = 0; i < list.size(); i++) {
-								BoardBean boardBean = list.get(i);
-					%>
-					<tr onclick="location.href='read.jsp?boardNum=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
-						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardNum()%></td>
-						<td class="text-left">
-							<%
-								int wid = 0;
-										if (boardBean.getBoardRe_lev() > 0) {
-											wid = boardBean.getBoardRe_lev() * 10;
-							%>
-							<img src="<%=contextPath%>/images/re.gif" style="margin-left:<%=wid%>px" class="mr-2" />
-							<%
-								}
-							%>
-							<%=boardBean.getBoardSubject()%>
-							
-							<%
-								if(boardBean.getBoardFile()!=null && !boardBean.getBoardSubject().equals("")){
-							%>
-								<svg class="bi bi-download ml-2" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
-								  <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
-								  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
-								</svg>
-							<%} %>
-							<small class="d-block d-lg-none text-right mt-1 text-muted">
-								<%=boardBean.getUserName()%> | <%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%> | <%=boardBean.getBoardCount()%>
-							</small>
-						</td>
-						<td class="d-none d-lg-table-cell"><%=boardBean.getUserName()%></td>
-						<td class="d-none d-lg-table-cell"><%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%></td>
-						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardCount()%></td>
-					</tr>
-					<%
+		<article>
+			<div class="gallery-grid">
+				<%
+					if (count > 0) {
+						for (int i = 0; i < list.size(); i++) {
+							BoardBean boardBean = list.get(i);
+							String[] fileItems = boardBean.getBoardFile().split(",");
+				%>
+				<div class="gallery-grid-item" onclick="location.href='read.jsp?boardNum=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
+					<img src="<%=contextPath%>/file/<%=fileItems[0]%>" class="d-block w-100" />
+					<div class="caption">
+						<div class="caption-inner text-center">
+							<div>
+								<p class="h4"><%=boardBean.getBoardSubject()%></p>
+								<small><%=boardBean.getUserName()%></small>
+								<small><%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%></small>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%
 						}
-						} else {
-					%>
-					<tr>
-						<td colspan="5">등록된 게시글이 없습니다.</td>
-					</tr>
-					<%
-						}
-					%>
-				</tbody>
-			</table>
+					}
+				%>
+			</div>
+			<hr />
 			<div class="row  my-5">
 				<div class="col-12 col-lg-8">
 					<form action="<%=boardId%>.jsp" class="form-inline justify-content-center justify-content-lg-start">
@@ -175,5 +135,13 @@
 		<!-- 게시판 -->
 	</section>
 	<jsp:include page="/include/footer.jsp" />
+	<script src="<%=contextPath%>/js/masonry.pkgd.min.js"></script>
+	<script>
+		$(document).ready(function(){		
+			$('.gallery-grid').masonry({
+				itemSelector : '.gallery-grid-item'
+			});
+		})
+	</script>
 </body>
 </html>

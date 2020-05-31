@@ -34,6 +34,7 @@
 		String fieldName = "";
 		String fileName = "";
 		String fieldString = "";
+		String fileNameTemp = "";
 		
 		for(int i=0; i<items.size(); i++) {
 			
@@ -84,16 +85,31 @@
 					File uploadFile = new File(currentDirPath + "\\" + fileName);
 					
 					fileItem.write(uploadFile);
-
+					
 					if(fieldName.equals("boardFile")){
 						boardBean.setBoardFile(fileName);
+					}else if(fieldName.equals("boardFile1")){
+						fileNameTemp += fileName;
+						boardBean.setBoardFile(fileNameTemp);
+					}else if(fieldName.equals("boardFile2")){
+						if(fileNameTemp.length() > 0){
+							fileNameTemp += ",";
+						}
+						fileNameTemp += fileName;
+						boardBean.setBoardFile(fileNameTemp);
+					}else if(fieldName.equals("boardFile3")){
+						if(fileNameTemp.length() > 0){
+							fileNameTemp += ",";
+						}
+						fileNameTemp += fileName;
+						boardBean.setBoardFile(fileNameTemp);
 					}
 				}//if
 				
 			}//if
 			
 		}//for
-		
+				
 	} catch (Exception e) {
 		System.out.println("업로드 실패!: " + e.toString());
 	}

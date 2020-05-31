@@ -95,19 +95,78 @@
 					<td colspan="5"><%=readCount%></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="py-5"><%=readContent%></td>
+					<td colspan="6" class="py-5">
+						<%
+							if(readBoardFile!=null && !readBoardFile.equals("") && boardId.equals("gallery")){
+								String[] fileItems = readBoardFile.split(",");
+						%>
+							<div id="mainCasousel" class="carousel slide mb-5" data-ride="carousel">
+								<ol class="carousel-indicators mb-0">
+									<%
+										for(int i=0;i<fileItems.length;i++){
+									%>					
+										<li data-target="mainCasousel" data-slide-to="<%=i%>" <%if(i==0) out.print("class='active'");%>></li>
+									<%
+										}
+									%>
+								</ol>
+								<div class="carousel-inner">
+									<%
+										for(int i=0;i<fileItems.length;i++){
+									%>						
+										<div class='carousel-item <%if(i==0) out.print("active");%>'>
+											<img src="<%=contextPath%>/file/<%=fileItems[i]%>" class="d-block w-100" />
+										</div>		
+									<%
+										}
+									%>
+								</div>
+								<a class="carousel-control-prev" href="#mainCasousel" role="button" data-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="sr-only">Previous</span>
+								</a>
+								<a class="carousel-control-next" href="#mainCasousel" role="button" data-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+								</a>
+							</div>
+						<%
+							}
+						%>
+						<%=readContent%>
+					</td>
 				</tr>
 				<%
 					if(readBoardFile!=null && !readBoardFile.equals("")){
+						if(boardId.equals("gallery")){
+						
+							String[] fileItems = readBoardFile.split(",");
+							System.out.println(readBoardFile);
+							for(int i=0;i<fileItems.length;i++){
 				%>
-				<tr>
-					<th class="align-middle">첨부파일</th>
-					<td colspan="5">
-						<%=readBoardFile%>
-						<a href="<%=contextPath%>/download.do?fileName=<%=readBoardFile%>" class="btn btn-sm btn-info ml-2">다운로드</a>
-					</td>
-				</tr>
-				<% } %>
+					<tr>
+						<th class="align-middle">첨부 이미지<%=i+1%></th>
+						<td colspan="5">
+							<img src="<%=contextPath%>/file/<%=fileItems[i]%>" class="mr-2" style="width:60px" />
+							<%=fileItems[i]%>
+							<a href="<%=contextPath%>/download.do?fileName=<%=fileItems[i]%>" class="btn btn-sm btn-info ml-2">다운로드</a>
+						</td>
+					</tr>
+				<%
+							}
+						}else{
+				%>
+					<tr>
+						<th class="align-middle">첨부파일</th>
+						<td colspan="5">
+							<%=readBoardFile%>
+							<a href="<%=contextPath%>/download.do?fileName=<%=readBoardFile%>" class="btn btn-sm btn-info ml-2">다운로드</a>
+						</td>
+					</tr>
+				<%
+						}
+					}
+				%>
 			</table>
 			<div class="text-center my-5">
 				<button type="button" class="btn btn-secondary" onclick="location.href='<%=boardId%>.jsp?pageNum=<%=pageNum%>'">목록</button>
@@ -118,7 +177,7 @@
 				<button type="button" class="btn btn-danger" onclick="location.href='delete.jsp?pageNum=<%=pageNum%>&boardNum=<%=readNum%>'">삭제</button>
 				<%
 					}
-					if (userId != null) {
+					if (userId != null && !boardId.equals("gallery")) {
 				%>
 				<button type="button" class="btn btn-primary" onclick="document.reWriteform.submit()">답글쓰기</button>
 				<%

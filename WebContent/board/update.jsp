@@ -108,33 +108,72 @@
 						</td>
 					</tr>
 					<%
-						if(updateBoardFile!=null && !updateBoardFile.equals("")){
+						if(boardId.equals("gallery")){
+						
+							String[] fileItems = updateBoardFile.split(",");
+							for(int i=0;i<fileItems.length;i++){
 					%>
-					<tr>
-						<th class="align-middle">첨부파일</th>
-						<td colspan="5">
-							<%=updateBoardFile%> <br />
-						</td>
-					</tr>
-					<% } %>
-					<tr>
-						<th class="align-middle">
-							<label class="m-0">파일첨부</label>
-						</th>
-						<td>
-							<%
-								if(updateBoardFile!=null && !updateBoardFile.equals("")){
-							%>
-								<p class="alert alert-danger" id="alert" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
-							<%
-								}
-							%>
-							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="checkFile(this)" />
-								<label class="custom-file-label" for="boardFile">Choose file</label>
-							</div>
-						</td>
-					</tr>
+						<tr>
+							<th class="align-middle">이미지 첨부<%=i+1%></th>
+							<td colspan="5">
+								<%
+									if(fileItems[i]!=null && !fileItems[i].equals("")){
+								%>
+									<input type="hidden" name="oldFile<%=i+1%>" value="<%=fileItems[i]%>" />
+									<p>
+										<img src="<%=contextPath%>/file/<%=fileItems[i]%>" class="mr-2" style="width:60px" />
+										<%=fileItems[i]%>
+									</p>
+									<p class="alert alert-danger" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
+								<%
+									}
+								%>
+								<div class="custom-file">
+									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" onchange="checkFile(this)" />
+									<label class="custom-file-label" for="boardFile">Choose file</label>
+								</div>
+							</td>
+						</tr>
+					<%
+							}
+							for(int i=fileItems.length;i<3;i++){
+					%>
+						<tr>
+							<th class="align-middle">이미지 첨부<%=i+1%></th>
+							<td colspan="5">
+								<div class="custom-file">
+									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" />
+									<label class="custom-file-label" for="boardFile">Choose file</label>
+								</div>
+							</td>
+						</tr>
+					<%
+							}
+							
+						}else{
+					%>
+						<tr>
+							<th class="align-middle">
+								<label class="m-0">파일첨부</label>
+							</th>
+							<td>
+								<%
+									if(updateBoardFile!=null && !updateBoardFile.equals("")){
+								%>
+									<p><%=updateBoardFile%></p>
+									<p class="alert alert-danger" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
+								<%
+									}
+								%>
+								<div class="custom-file">
+									<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="checkFile(this)" />
+									<label class="custom-file-label" for="boardFile">Choose file</label>
+								</div>
+							</td>
+						</tr>
+					<%
+						}
+					%>
 				</table>
 				<div class="text-center my-5">
 					<input type="button" value="취소" class="btn btn-secondary" onclick="history.back()" />
@@ -151,11 +190,11 @@
 			bsCustomFileInput.init()
 		})
 		function checkFile(obj){
-			if($("#alert").length){
+			if($(obj).parent().prev().hasClass("alert")){
 				if($(obj).val().length > 0){
-					$("#alert").fadeIn();
+					$(obj).parent().prev().fadeIn();
 				}else{
-					$("#alert").hide();
+					$(obj).parent().prev().hide();
 				}
 			}
 		}

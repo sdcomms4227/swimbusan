@@ -36,6 +36,13 @@
 		String fieldName = "";
 		String fileName = "";
 		String fieldString = "";
+		String fileNameTemp = "";
+		String oldFile1 = "";
+		String oldFile2 = "";
+		String oldFile3 = "";
+		String newFile1 = "";
+		String newFile2 = "";
+		String newFile3 = "";
 		
 		for(int i=0; i<items.size(); i++) {
 			
@@ -65,6 +72,12 @@
 				}else if(fieldName.equals("boardNum")){
 					boardNum = fieldString;
 					boardBean.setBoardNum(Integer.parseInt(fieldString));
+				}else if(fieldName.equals("oldFile1")){
+					oldFile1 = fieldString;
+				}else if(fieldName.equals("oldFile2")){
+					oldFile2 = fieldString;
+				}else if(fieldName.equals("oldFile3")){
+					oldFile3 = fieldString;
 				}
 				
 			}else {
@@ -88,19 +101,59 @@
 					}
 					
 					fileName = fileName.substring(idx+1);
-					
+									
 					File uploadFile = new File(currentDirPath + "\\" + fileName);
 					
 					fileItem.write(uploadFile);
 
 					if(fieldName.equals("boardFile")){
 						boardBean.setBoardFile(fileName);
+					}else if(fieldName.equals("boardFile1")){
+						newFile1 = fileName;
+					}else if(fieldName.equals("boardFile2")){
+						newFile2 = fileName;
+					}else if(fieldName.equals("boardFile3")){
+						newFile3 = fileName;
 					}
+					
+					
 				}//if
 				
 			}//if
 			
 		}//for
+				
+		if(!newFile1.equals("")){
+			fileNameTemp += newFile1;
+		}else if(!oldFile1.equals("")){
+			fileNameTemp += oldFile1;
+		}
+		
+		if(!newFile2.equals("")){
+			if(!fileNameTemp.equals("")){
+				fileNameTemp += ",";
+			}
+			fileNameTemp += newFile2;
+		}else if(!oldFile1.equals("")){
+			if(!fileNameTemp.equals("")){
+				fileNameTemp += ",";
+			}
+			fileNameTemp += oldFile2;
+		}
+		
+		if(!newFile3.equals("")){
+			if(!fileNameTemp.equals("")){
+				fileNameTemp += ",";
+			}
+			fileNameTemp += newFile3;
+		}else if(!oldFile1.equals("")){
+			if(!fileNameTemp.equals("")){
+				fileNameTemp += ",";
+			}
+			fileNameTemp += oldFile3;
+		}
+		
+		boardBean.setBoardFile(fileNameTemp);
 		
 	} catch (Exception e) {
 		System.out.println("업로드 실패!: " + e.toString());

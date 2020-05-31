@@ -95,6 +95,45 @@
 							<textarea class="form-control" name="boardContent" id="boardContent" cols="40" rows="13" required></textarea>
 						</td>
 					</tr>
+					<%
+						if(boardId.equals("gallery")){
+					%>
+					<tr>
+						<th class="align-middle">
+							<label for="boardFile1" class="m-0">이미지 첨부1</label>
+						</th>
+						<td>
+							<div class="custom-file">
+								<input class="custom-file-input" type="file" name="boardFile1" id="boardFile1" />
+								<label class="custom-file-label" for="boardFile1">Choose file</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="align-middle">
+							<label for="boardFile2" class="m-0">이미지 첨부2</label>
+						</th>
+						<td>
+							<div class="custom-file">
+								<input class="custom-file-input" type="file" name="boardFile2" id="boardFile2" />
+								<label class="custom-file-label" for="boardFile1">Choose file</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="align-middle">
+							<label for="boardFile3" class="m-0">이미지 첨부3</label>
+						</th>
+						<td>
+							<div class="custom-file">
+								<input class="custom-file-input" type="file" name="boardFile3" id="boardFile3" />
+								<label class="custom-file-label" for="boardFile1">Choose file</label>
+							</div>
+						</td>
+					</tr>
+					<%
+						} else {
+					%>
 					<tr>
 						<th class="align-middle">
 							<label class="m-0">파일첨부</label>
@@ -106,6 +145,9 @@
 							</div>
 						</td>
 					</tr>
+					<%
+						}
+					%>
 				</table>
 				<div class="text-center my-5">
 					<button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
