@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/mailSend")
 public class MailSendServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +42,7 @@ public class MailSendServlet extends HttpServlet {
 		
 		String sender = "itwill4227@gmail.com";
 		String receiver = request.getParameter("userEmail");
-		String subject = "수영부산 인증메일 입니다.";
+		String subject = "SwimBusan 인증메일 입니다.";
 		String content = "인증번호 : " + emailKey;
 		
 		response.setContentType("text/html;charset=UTF-8");

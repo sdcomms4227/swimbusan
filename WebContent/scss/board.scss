@@ -64,11 +64,49 @@ $borderColor : #dee2e6;
 	background-color: #fafafa;
 }
 
-@media (min-width:992px){
+.gallery-grid {
+	margin: 0 -8px;
+}
+
+.gallery-grid-item {
+	width: 50%;
+	padding: 8px;
+	.caption {
+		overflow: hidden;
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		bottom: 8px;
+		left: 8px;
+	}
+	.caption-inner {
+		display: table;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,.8);
+		color: #fff;
+		transition:top .2s ease-out;
+		div {
+			display:table-cell;
+			vertical-align: middle;
+		}
+	}
+}
+
+@media ( min-width :992px) {
 	.d-lg-table-column-group {
 		display: table-column-group !important;
 	}
 	.d-lg-table-header-group {
 		display: table-header-group !important;
+	}
+	.gallery-grid-item {
+		width: 33.33%;
+		&:hover .caption-inner {
+			top: 0;
+		}
 	}
 }

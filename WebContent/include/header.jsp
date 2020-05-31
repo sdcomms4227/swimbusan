@@ -8,7 +8,7 @@
 %>
 <header class="navbar navbar-expand-lg navbar-light">
 	<div class="container d-flex justify-content-between">
-		<a class="navbar-brand mr-5" href="<%=contextPath%>/index.jsp">
+		<a class="navbar-brand mr-4 mr-xl-5" href="<%=contextPath%>/index.jsp">
 			<strong>SwimBusan</strong>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarGnb" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,10 @@
 					<a class="nav-link <%if (pageId.equals("info")) out.print("active");%>" href="<%=contextPath%>/board/info.jsp">수영 정보</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link <%if (pageId.equals("board")) out.print("active");%>" href="<%=contextPath%>/board/board.jsp">수다방</a>
+					<a class="nav-link <%if (pageId.equals("board")) out.print("active");%>" href="<%=contextPath%>/board/board.jsp">자유게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link <%if (pageId.equals("gallery")) out.print("active");%>" href="<%=contextPath%>/board/gallery.jsp">갤러리</a>
 				</li>
 			</ul>
 			<ul class="nav">
