@@ -7,7 +7,11 @@
 <body>
 	<jsp:include page="../include/header.jsp" />
 	<section class="container body-container py-5">
-		<h1><%=pageName%></h1>
+		<div class="row">
+			<div class="col-12">
+				<h2><%=pageName%></h2>
+			</div>
+		</div>
 	</section>
 	<jsp:include page="../include/footer.jsp" />
 </body>
