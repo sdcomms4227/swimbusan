@@ -54,12 +54,12 @@
 		<article class="mt-3">
 			<table class="table read-table">
 				<colgroup>
-					<col style="width: 80px" />
+					<col style="width: 70px" />
 					<col />
-					<col style="width: 80px" />
-					<col style="width: 200px" />
-					<col style="width: 80px" />
-					<col style="width: 80px" />
+					<col style="width: 70px" />
+					<col style="width: 210px" />
+					<col style="width: 70px" />
+					<col style="width: 70px" />
 				</colgroup>
 				<tr>
 					<td colspan="6" class="h4 p-3 readsubject">
@@ -71,6 +71,9 @@
 						<%
 							}
 						%>
+						<div class="h6 mt-3 mb-0 d-lg-none text-right">
+							<small class="text-muted"><%=readName%> | <%=sdfmt.format(readDate)%> | <%=readCount%></small>
+						</div>
 					</td>
 				</tr>
 				<tr class="d-none d-lg-table-row">
@@ -80,18 +83,6 @@
 					<td><%=sdfmt.format(readDate)%></td>
 					<th class="align-middle">조회수</th>
 					<td><%=readCount%></td>
-				</tr>
-				<tr class="d-lg-none">
-					<th class="align-middle">작성자</th>
-					<td colspan="5"><%=readName%></td>
-				</tr>
-				<tr class="d-lg-none">
-					<th class="align-middle">작성일</th>
-					<td colspan="5"><%=sdfmt.format(readDate)%></td>
-				</tr>
-				<tr class="d-lg-none">
-					<th class="align-middle">조회수</th>
-					<td colspan="5"><%=readCount%></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="py-5">

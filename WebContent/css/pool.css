@@ -81,7 +81,7 @@
 }
 
 #menu_wrap:not(.active) {
-  left: -420px;
+  left: -360px;
 }
 
 #placesList {
@@ -243,14 +243,14 @@
 
 @media (min-width: 768px) {
   #menu_wrap {
-    width: 360px;
+    width: 300px;
   }
 
   .btnToggle {
-    left: 360px;
+    left: 300px;
   }
   .btnToggle.active {
-    left: 360px;
+    left: 300px;
   }
 }
 @media (min-width: 992px) {
@@ -263,14 +263,14 @@
   }
 
   #menu_wrap {
-    width: 420px;
+    width: 360px;
   }
 
   .btnToggle {
-    left: 420px;
+    left: 360px;
   }
   .btnToggle.active {
-    left: 420px;
+    left: 360px;
   }
 }
 

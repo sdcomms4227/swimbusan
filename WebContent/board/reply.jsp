@@ -47,9 +47,6 @@
 				<td class="d-none d-lg-table-cell align-middle"><%=beanName%></td>
 				<td class="text-left align-middle">
 					<%=beanContent%>					
-					<small class="d-block d-lg-none text-right mb-1 text-muted">
-						<%=beanName%> | <%=beanDate%>
-					</small>
 					<%
 						if(userId!=null && userId.equals(beanId)){
 					%>
@@ -57,6 +54,9 @@
 					<%
 						}
 					%>
+					<small class="d-block d-lg-none text-right mb-1 text-muted">
+						<%=beanName%> | <%=beanDate%>
+					</small>
 				</td>
 				<td class="d-none d-lg-table-cell text-center align-middle">
 					<small><%=beanDate%></small>
@@ -142,10 +142,10 @@
 					str += '	<td class="d-none d-lg-table-cell align-middle">' + ajaxName + '</td>';
 					str += '	<td class="text-left align-middle">';
 					str += 			ajaxContent;				
+					str += '		<button type="button" class="btn btn-sm btn-danger ml-2" onclick="replyDelete(\'' + ajaxNum + '\')">삭제</button>';
 					str += '		<small class="d-block d-lg-none text-right mb-1 text-muted">';
 					str += 				ajaxName + ' | ' + ajaxDate;
 					str += '		</small>';
-					str += '		<button type="button" class="btn btn-sm btn-danger ml-2" onclick="replyDelete(\'' + ajaxNum + '\')">삭제</button>';
 					str += '	</td>';
 					str += '	<td class="d-none d-lg-table-cell text-center align-middle">';
 					str += '		<small>' + ajaxDate + '</small>';
