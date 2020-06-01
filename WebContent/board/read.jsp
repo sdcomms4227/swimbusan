@@ -38,7 +38,7 @@
 	int readRe_lev = boardBean.getBoardRe_lev();
 	int readRe_seq = boardBean.getBoardRe_seq();
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+	SimpleDateFormat sdfmt = new SimpleDateFormat("yy-MM-dd HH:mm");
 
 	String userId = (String) session.getAttribute("userId");
 %>
@@ -54,12 +54,12 @@
 		<article class="mt-3">
 			<table class="table read-table">
 				<colgroup>
-					<col style="width: 8%" />
-					<col style="width: 52%" />
-					<col style="width: 8%" />
-					<col style="width: 16%" />
-					<col style="width: 8%" />
-					<col style="width: 8%" />
+					<col style="width: 80px" />
+					<col />
+					<col style="width: 80px" />
+					<col style="width: 200px" />
+					<col style="width: 80px" />
+					<col style="width: 80px" />
 				</colgroup>
 				<tr>
 					<td colspan="6" class="h4 p-3 readsubject">
@@ -77,7 +77,7 @@
 					<th class="align-middle">작성자</th>
 					<td><%=readName%></td>
 					<th class="align-middle">작성일</th>
-					<td><%=sdf.format(readDate)%></td>
+					<td><%=sdfmt.format(readDate)%></td>
 					<th class="align-middle">조회수</th>
 					<td><%=readCount%></td>
 				</tr>
@@ -87,7 +87,7 @@
 				</tr>
 				<tr class="d-lg-none">
 					<th class="align-middle">작성일</th>
-					<td colspan="5"><%=sdf.format(readDate)%></td>
+					<td colspan="5"><%=sdfmt.format(readDate)%></td>
 				</tr>
 				<tr class="d-lg-none">
 					<th class="align-middle">조회수</th>

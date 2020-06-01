@@ -44,8 +44,8 @@
 						String beanDate = sdf.format(replyBean.getReplyDate());
 			%>
 			<tr id="reply<%=beanNum%>">
-				<td class="d-none d-lg-table-cell"><%=beanName%></td>
-				<td class="text-left">
+				<td class="d-none d-lg-table-cell align-middle"><%=beanName%></td>
+				<td class="text-left align-middle">
 					<%=beanContent%>					
 					<small class="d-block d-lg-none text-right mb-1 text-muted">
 						<%=beanName%> | <%=beanDate%>
@@ -58,7 +58,7 @@
 						}
 					%>
 				</td>
-				<td class="d-none d-lg-table-cell text-center">
+				<td class="d-none d-lg-table-cell text-center align-middle">
 					<small><%=beanDate%></small>
 				</td>
 			</tr>
@@ -139,20 +139,20 @@
 					var str = "";					
 					
 					str += '<tr id="reply' + ajaxNum + '">';
-					str += '<td class="d-none d-lg-table-cell">' + ajaxName + '</td>';
-					str += '<td class="text-left">';
-					str += 		ajaxContent;				
-					str += '	<small class="d-block d-lg-none text-right mb-1 text-muted">';
-					str += 			ajaxName + ' | ' + ajaxDate;
-					str += '	</small>';
-					str += '	<button type="button" class="btn btn-sm btn-danger ml-2" onclick="replyDelete(\'' + ajaxNum + '\')">삭제</button>';
-					str += '</td>';
-					str += '<td class="d-none d-lg-table-cell text-center">';
-					str += '	<small>' + ajaxDate + '</small>';
-					str += '</td>';
+					str += '	<td class="d-none d-lg-table-cell align-middle">' + ajaxName + '</td>';
+					str += '	<td class="text-left align-middle">';
+					str += 			ajaxContent;				
+					str += '		<small class="d-block d-lg-none text-right mb-1 text-muted">';
+					str += 				ajaxName + ' | ' + ajaxDate;
+					str += '		</small>';
+					str += '		<button type="button" class="btn btn-sm btn-danger ml-2" onclick="replyDelete(\'' + ajaxNum + '\')">삭제</button>';
+					str += '	</td>';
+					str += '	<td class="d-none d-lg-table-cell text-center align-middle">';
+					str += '		<small>' + ajaxDate + '</small>';
+					str += '	</td>';
 					str += '</tr>';
-
-					$(".reply-list-table").append(str);	
+					
+					$(".reply-list-table").append(str);
 					
 					if($("#replyEmpty")){
 						$("#replyEmpty").remove();
