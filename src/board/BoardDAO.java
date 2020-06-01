@@ -134,14 +134,45 @@ public class BoardDAO {
 
 			conn = getConnection();
 			
-			if(category == null || category.equals("")) {				
-				sql = "select * from " + boardId +  " where boardSubject like ? order by boardRe_ref desc, boardRe_seq asc limit ?, ?";
+			if(category == null || category.equals("")) {
+				//댓글수를 제외한 SQL
+				//sql = "select * from " + boardId +  " where boardSubject like ? order by boardRe_ref desc, boardRe_seq asc limit ?, ?";
+				
+				//댓글수를 포함한 SQL
+				sql = "select *"
+					+" from "+ boardId + " b"
+					+" left join ("
+						+ " select count(*) replyCount, boardId replyBoardId, boardNum replyBoardNum"
+						+ " from reply"
+						+ " group by boardId, boardNum"
+						+ " having boardId = '" + boardId + "') r"
+					+" on b.boardNum = r.replyBoardNum"
+					+" having b.boardSubject like ?"
+					+" order by boardRe_ref desc, boardRe_seq"
+					+" limit ?, ?";
+				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%" + search + "%");
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, pageSize);
 			}else {				
-				sql = "select * from " + boardId +  " where boardSubject like ? and boardCategory like ? order by boardRe_ref desc, boardRe_seq asc limit ?, ?";			
+				//댓글수를 제외한 SQL
+				//sql = "select * from " + boardId +  " where boardSubject like ? and boardCategory like ? order by boardRe_ref desc, boardRe_seq asc limit ?, ?";
+
+				//댓글수를 포함한 SQL
+				sql = "select *"
+					+" from "+ boardId + " b"
+					+" left join ("
+						+ " select count(*) replyCount, boardId replyBoardId, boardNum replyBoardNum"
+						+ " from reply"
+						+ " group by boardId, boardNum"
+						+ " having boardId = '" + boardId + "') r"
+					+" on b.boardNum = r.replyBoardNum"
+					+" having b.boardSubject like ?"
+					+" and b.boardCategory like ?"
+					+" order by boardRe_ref desc, boardRe_seq"
+					+" limit ?, ?";
+				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%" + search + "%");
 				pstmt.setString(2, "%" + category + "%");
@@ -168,6 +199,7 @@ public class BoardDAO {
 				boardBean.setBoardSubject(rs.getString("boardSubject"));
 				boardBean.setUserId(rs.getString("userId"));
 				boardBean.setUserName(rs.getString("userName"));
+				boardBean.setReplyCount(rs.getInt("replyCount"));
 
 				boardList.add(boardBean);
 			}

@@ -5,7 +5,7 @@
 <%@page import="java.io.File"%>
 <%@page import="board.BoardDAO"%>
 <%@page import="board.BoardBean"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String boardId = (String) session.getAttribute("boardId");
 	String userId = (String) session.getAttribute("userId");
@@ -16,7 +16,6 @@
 	if (userId == null) {
 		response.sendRedirect(contextPath + "/member/login.jsp");
 	}
-
 	
 	BoardBean boardBean = new BoardBean(); 
 	

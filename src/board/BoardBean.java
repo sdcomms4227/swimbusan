@@ -18,6 +18,7 @@ public class BoardBean {
 	private Timestamp boardDate;
 	private String boardIp;
 	private String boardCategory;
+	private int replyCount;
 
 	public int getBoardNum() {
 		return boardNum;
@@ -129,6 +130,14 @@ public class BoardBean {
 	
 	public void setBoardCategory(String boardCategory) {
 		this.boardCategory = boardCategory;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 
 }

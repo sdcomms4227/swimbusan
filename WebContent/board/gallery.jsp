@@ -18,9 +18,9 @@
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
 	String category = (request.getParameter("category") != null) ? request.getParameter("category") : "";
 
-	BoardDAO boardDao = new BoardDAO();
+	BoardDAO boardDAO = new BoardDAO();
 
-	int count = boardDao.getBoardCount(search, category, boardId);
+	int count = boardDAO.getBoardCount(search, category, boardId);
 	int pageSize = 10;
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
 	int currentPage = Integer.parseInt(pageNum);
@@ -29,8 +29,10 @@
 	List<BoardBean> list = null;
 
 	if (count > 0) {
-		list = boardDao.getBoardList(search, category, startRow, pageSize, boardId);
+		list = boardDAO.getBoardList(search, category, startRow, pageSize, boardId);
 	}
+	
+	SimpleDateFormat sdfmt = new SimpleDateFormat("yy.MM.dd");
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -49,21 +51,31 @@
 						for (int i = 0; i < list.size(); i++) {
 							BoardBean boardBean = list.get(i);
 							String[] fileItems = boardBean.getBoardFile().split(",");
+							int beanNum = boardBean.getBoardNum();
+							String beanSubject = boardBean.getBoardSubject();
+							String beanName = boardBean.getUserName();
+							String beanDate = sdfmt.format(boardBean.getBoardDate());
 				%>
-				<div class="gallery-grid-item" onclick="location.href='read.jsp?boardNum=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
-					<img src="<%=contextPath%>/file/<%=fileItems[0]%>" class="d-block w-100" />
-					<div class="caption">
-						<div class="caption-inner text-center">
-							<div>
-								<p class="h4"><%=boardBean.getBoardSubject()%></p>
-								<small><%=boardBean.getUserName()%></small>
-								<small><%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%></small>
+					<div class="gallery-grid-item" onclick="location.href='read.jsp?boardNum=<%=beanNum%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
+						<img src="<%=contextPath%>/file/<%=fileItems[0]%>" class="d-block w-100" />
+						<div class="caption">
+							<div class="caption-inner text-center">
+								<div>
+									<p class="h4"><%=beanSubject%></p>
+									<small><%=beanName%></small>
+									<small><%=beanDate%></small>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 				<%
 						}
+					}else{
+				%>
+					<div class="gallery-grid-item">
+						등록된 게시글이 없습니다.
+					</div>
+				<%
 					}
 				%>
 			</div>

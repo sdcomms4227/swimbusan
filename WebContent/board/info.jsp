@@ -1,4 +1,3 @@
-<%@page import="reply.ReplyDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="board.BoardBean"%>
@@ -19,9 +18,9 @@
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
 	String category = (request.getParameter("category") != null) ? request.getParameter("category") : "";
 
-	BoardDAO boardDao = new BoardDAO();
+	BoardDAO boardDAO = new BoardDAO();
 
-	int count = boardDao.getBoardCount(search, category, boardId);
+	int count = boardDAO.getBoardCount(search, category, boardId);
 	int pageSize = 10;
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
 	int currentPage = Integer.parseInt(pageNum);
@@ -30,10 +29,10 @@
 	List<BoardBean> list = null;
 
 	if (count > 0) {
-		list = boardDao.getBoardList(search, category, startRow, pageSize, boardId);
+		list = boardDAO.getBoardList(search, category, startRow, pageSize, boardId);
 	}
-	
-	ReplyDAO replyDAO = new ReplyDAO();
+
+	SimpleDateFormat sdfmt = new SimpleDateFormat("yy.MM.dd");
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -68,54 +67,58 @@
 							for (int i = 0; i < list.size(); i++) {
 								BoardBean boardBean = list.get(i);
 								int beanNum = boardBean.getBoardNum();
+								int beanRe_lev = boardBean.getBoardRe_lev();
+								String beanSubject = boardBean.getBoardSubject();
+								String beanFile = boardBean.getBoardFile();
+								String beanName = boardBean.getUserName();
+								String beanDate = sdfmt.format(boardBean.getBoardDate());
+								int beanCount = boardBean.getBoardCount();
+								int beanRCount = boardBean.getReplyCount();
 					%>
-					<tr onclick="location.href='read.jsp?boardNum=<%=beanNum%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
-						<td class="d-none d-lg-table-cell"><%=beanNum%></td>
-						<td class="text-left">
-							<%
-								int wid = 0;
-										if (boardBean.getBoardRe_lev() > 0) {
-											wid = boardBean.getBoardRe_lev() * 10;
-							%>
-							<img src="<%=contextPath%>/images/re.gif" style="margin-left:<%=wid%>px" class="mr-2" />
-							<%
-								}
-							%>
-							<%=boardBean.getBoardSubject()%>
-							
-							<%
-								if(boardBean.getBoardFile()!=null && !boardBean.getBoardSubject().equals("")){
-							%>
-								<svg class="bi bi-download ml-2" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
-								  <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
-								  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
-								</svg>
-							<%} %>		
-							<%
-								int replyCount = replyDAO.getReplyCount(boardId, beanNum);
-							
-								if(replyCount > 0){
-							%>
-								<small class="text-muted">[<%=replyCount%>]</small>
-							<%
-								}
-							%>
-							<small class="d-block d-lg-none text-right mt-1 text-muted">
-								<%=boardBean.getUserName()%> | <%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%> | <%=boardBean.getBoardCount()%>
-							</small>
-						</td>
-						<td class="d-none d-lg-table-cell"><%=boardBean.getUserName()%></td>
-						<td class="d-none d-lg-table-cell"><%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%></td>
-						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardCount()%></td>
-					</tr>
+						<tr onclick="location.href='read.jsp?boardNum=<%=beanNum%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
+							<td class="d-none d-lg-table-cell"><%=beanNum%></td>
+							<td class="text-left">
+								<%
+									int marginLeft = 0;
+									if (beanRe_lev > 0) {
+										marginLeft = beanRe_lev * 10;
+								%>
+								<img src="<%=contextPath%>/images/re.gif" style="margin-left:<%=marginLeft%>px" class="mr-2" />
+								<%
+									}
+								%>
+								<%=beanSubject%>							
+								<%
+									if(beanFile!=null && !beanFile.equals("")){
+								%>
+									<svg class="bi bi-download ml-2" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									  <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
+									  <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
+									  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
+									</svg>
+								<%
+									}
+									if(beanRCount > 0){
+								%>
+									<small class="text-muted">[<%=beanRCount%>]</small>
+								<%
+									}
+								%>
+								<small class="d-block d-lg-none text-right mt-1 text-muted">
+									<%=beanName%> | <%=beanDate%> | <%=beanCount%>
+								</small>
+							</td>
+							<td class="d-none d-lg-table-cell"><%=beanName%></td>
+							<td class="d-none d-lg-table-cell"><%=beanDate%></td>
+							<td class="d-none d-lg-table-cell"><%=beanCount%></td>
+						</tr>
 					<%
-						}
+							}
 						} else {
 					%>
-					<tr>
-						<td colspan="5">등록된 게시글이 없습니다.</td>
-					</tr>
+						<tr>
+							<td colspan="5">등록된 게시글이 없습니다.</td>
+						</tr>
 					<%
 						}
 					%>

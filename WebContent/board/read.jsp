@@ -2,7 +2,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="board.BoardBean"%>
 <%@page import="board.BoardDAO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String boardId = (String) session.getAttribute("boardId");
 	String pageName = (String) session.getAttribute("boardName");
@@ -15,11 +15,11 @@
 	int boardNum = Integer.parseInt(request.getParameter("boardNum"));
 	String pageNum = request.getParameter("pageNum");
 
-	BoardDAO boardDao = new BoardDAO();
+	BoardDAO boardDAO = new BoardDAO();
 
-	boardDao.updateCount(boardNum, boardId);
+	boardDAO.updateCount(boardNum, boardId);
 
-	BoardBean boardBean = boardDao.getBoard(boardNum, boardId);
+	BoardBean boardBean = boardDAO.getBoard(boardNum, boardId);
 
 	int readNum = boardBean.getBoardNum();
 	int readCount = boardBean.getBoardCount();
