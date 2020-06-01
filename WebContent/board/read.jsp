@@ -1,6 +1,5 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.List"%>
 <%@page import="board.BoardBean"%>
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -39,7 +38,7 @@
 	int readRe_lev = boardBean.getBoardRe_lev();
 	int readRe_seq = boardBean.getBoardRe_seq();
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
 	String userId = (String) session.getAttribute("userId");
 %>
@@ -53,7 +52,7 @@
 		</div>
 		<!-- 게시판 -->
 		<article class="mt-3">
-			<table class="table readtable">
+			<table class="table read-table">
 				<colgroup>
 					<col style="width: 8%" />
 					<col style="width: 52%" />
@@ -138,18 +137,16 @@
 				</tr>
 				<%
 					if(readBoardFile!=null && !readBoardFile.equals("")){
-						if(boardId.equals("gallery")){
-						
+						if(boardId.equals("gallery")){						
 							String[] fileItems = readBoardFile.split(",");
-							System.out.println(readBoardFile);
 							for(int i=0;i<fileItems.length;i++){
 				%>
 					<tr>
 						<th class="align-middle">첨부 이미지<%=i+1%></th>
 						<td colspan="5">
 							<img src="<%=contextPath%>/file/<%=fileItems[i]%>" class="mr-2" style="width:60px" />
-							<%=fileItems[i]%>
-							<a href="<%=contextPath%>/download.do?fileName=<%=fileItems[i]%>" class="btn btn-sm btn-info ml-2">다운로드</a>
+							<span class="my-2 mr-2"><%=fileItems[i]%></span>
+							<a href="<%=contextPath%>/download.do?fileName=<%=fileItems[i]%>" class="btn btn-sm btn-info my-1">다운로드</a>
 						</td>
 					</tr>
 				<%
@@ -168,6 +165,9 @@
 					}
 				%>
 			</table>
+			<!-- 댓글 -->
+			<jsp:include page="reply.jsp" />
+			<!-- 댓글 -->
 			<div class="text-center my-5">
 				<button type="button" class="btn btn-secondary" onclick="location.href='<%=boardId%>.jsp?pageNum=<%=pageNum%>'">목록</button>
 				<%
@@ -185,7 +185,7 @@
 				%>
 			</div>			
 		</article>
-		<!-- 게시판 -->				
+		<!-- 게시판 -->
 		<form action="reWrite.jsp" method="post" name="reWriteform">
 			<input type="hidden" name="boardCategory" value="<%=readCategory%>" />
 			<input type="hidden" name="boardSubject" value="<%=readSubject%>" />

@@ -1,3 +1,4 @@
+<%@page import="reply.ReplyDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="board.BoardBean"%>
@@ -18,9 +19,9 @@
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
 	String category = (request.getParameter("category") != null) ? request.getParameter("category") : "";
 
-	BoardDAO boardDao = new BoardDAO();
+	BoardDAO boardDAO = new BoardDAO();
 
-	int count = boardDao.getBoardCount(search, category, boardId);
+	int count = boardDAO.getBoardCount(search, category, boardId);
 	int pageSize = 10;
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
 	int currentPage = Integer.parseInt(pageNum);
@@ -29,8 +30,10 @@
 	List<BoardBean> list = null;
 
 	if (count > 0) {
-		list = boardDao.getBoardList(search, category, startRow, pageSize, boardId);
+		list = boardDAO.getBoardList(search, category, startRow, pageSize, boardId);
 	}
+	
+	ReplyDAO replyDAO = new ReplyDAO();
 %>
 <body>
 	<jsp:include page="/include/header.jsp" />
@@ -64,9 +67,10 @@
 						if (count > 0) {
 							for (int i = 0; i < list.size(); i++) {
 								BoardBean boardBean = list.get(i);
+								int beanNum = boardBean.getBoardNum();
 					%>
-					<tr onclick="location.href='read.jsp?boardNum=<%=boardBean.getBoardNum()%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
-						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardNum()%></td>
+					<tr onclick="location.href='read.jsp?boardNum=<%=beanNum%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
+						<td class="d-none d-lg-table-cell"><%=beanNum%></td>
 						<td class="text-left">
 							<%
 								int wid = 0;
@@ -77,8 +81,7 @@
 							<%
 								}
 							%>
-							<%=boardBean.getBoardSubject()%>
-							
+							<%=boardBean.getBoardSubject()%>							
 							<%
 								if(boardBean.getBoardFile()!=null && !boardBean.getBoardSubject().equals("")){
 							%>
@@ -87,7 +90,16 @@
 								  <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
 								  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
 								</svg>
-							<%} %>
+							<%} %>		
+							<%
+								int replyCount = replyDAO.getReplyCount(boardId, beanNum);
+							
+								if(replyCount > 0){
+							%>
+								<small class="text-muted">[<%=replyCount%>]</small>
+							<%
+								}
+							%>
 							<small class="d-block d-lg-none text-right mt-1 text-muted">
 								<%=boardBean.getUserName()%> | <%=new SimpleDateFormat("yy.MM.dd").format(boardBean.getBoardDate())%> | <%=boardBean.getBoardCount()%>
 							</small>
@@ -97,7 +109,7 @@
 						<td class="d-none d-lg-table-cell"><%=boardBean.getBoardCount()%></td>
 					</tr>
 					<%
-						}
+							}
 						} else {
 					%>
 					<tr>

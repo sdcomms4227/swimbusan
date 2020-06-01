@@ -1,36 +1,45 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 * {
-  font-family: 'Nanum Gothic'; }
+  font-family: "Nanum Gothic";
+}
 
 /* bootstrap override */
 .nav .nav-link {
   color: #999;
-  transition: ease-in-out color .15s; }
-  .nav .nav-link:hover, .nav .nav-link.active {
-    color: #007bff; }
+  transition: ease-in-out color 0.15s;
+}
+.nav .nav-link:hover, .nav .nav-link.active {
+  color: #007bff;
+}
 
 .nav-tel {
   color: rgba(0, 0, 0, 0.5);
   border-color: rgba(0, 0, 0, 0.1);
-  transition: ease-in-out all .15s;
-  white-space: nowrap; }
+  transition: ease-in-out all 0.15s;
+  white-space: nowrap;
+}
 
 .form-control[readonly]:focus {
   border-color: #ced4da;
-  box-shadow: none; }
+  box-shadow: none;
+}
 
 /* layout */
 header {
-  background-color: #fff; }
+  background-color: #fff;
+}
 
 footer {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  background-color: #504e4e; }
-  footer p {
-    margin-bottom: 0 !important; }
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: #504e4e;
+}
+footer p {
+  margin-bottom: 0 !important;
+}
 
 .body-container {
-  min-height: calc(100vh - 56px - 43px); }
+  min-height: calc(100vh - 56px - 43px);
+}
 
 /*# sourceMappingURL=style.css.map */

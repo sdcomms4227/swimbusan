@@ -137,10 +137,12 @@
 	<jsp:include page="/include/footer.jsp" />
 	<script src="<%=contextPath%>/js/masonry.pkgd.min.js"></script>
 	<script>
-		$(document).ready(function(){		
-			$('.gallery-grid').masonry({
-				itemSelector : '.gallery-grid-item'
-			});
+		$(document).ready(function(){
+			setTimeout(function(){
+				$(".gallery-grid").masonry({
+					itemSelector : '.gallery-grid-item'
+				}).addClass("active");
+			},200)
 		})
 	</script>
 </body>
