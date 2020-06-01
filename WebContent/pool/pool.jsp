@@ -14,9 +14,9 @@
 	String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
 	String category = (request.getParameter("category") != null) ? request.getParameter("category") : "";
 
-	PoolDAO poolDao = new PoolDAO();
+	PoolDAO poolDAO = new PoolDAO();
 
-	int count = poolDao.getPoolCount(search);
+	int count = poolDAO.getPoolCount(search);
 	int pageSize = 10;
 	String pageNum = (request.getParameter("pageNum") != null) ? request.getParameter("pageNum") : "1";
 	int currentPage = Integer.parseInt(pageNum);
@@ -25,7 +25,7 @@
 	List<PoolBean> list = null;
 
 	if (count > 0) {
-		list = poolDao.getPoolList(search, startRow, pageSize);
+		list = poolDAO.getPoolList(search, startRow, pageSize);
 	}
 %>
 <body>
