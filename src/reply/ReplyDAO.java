@@ -33,7 +33,7 @@ public class ReplyDAO {
 			if (rs != null)
 				rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("freeResource()메소드 내부에서 예외발생 : " + e.toString());
 		}
 	}
 
@@ -95,8 +95,6 @@ public class ReplyDAO {
 				num = 1;
 			}
 			
-			System.out.println("num : " + num);
-
 			sql = "select * from reply where replyNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);

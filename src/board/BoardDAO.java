@@ -33,7 +33,7 @@ public class BoardDAO {
 			if (rs != null)
 				rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("freeResource()메소드 내부에서 예외발생 : " + e.toString());
 		}
 	}
 

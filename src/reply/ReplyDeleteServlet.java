@@ -28,7 +28,6 @@ public class ReplyDeleteServlet extends HttpServlet {
 	}
 	
 	protected void doHandle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("doHandle");
 
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=utf-8");

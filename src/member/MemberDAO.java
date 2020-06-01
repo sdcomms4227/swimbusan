@@ -35,7 +35,7 @@ public class MemberDAO {
 			if (rs != null)
 				rs.close();
 		} catch (SQLException e) {
-			System.out.println("freeResource메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("freeResource()메소드 내부에서 예외발생 : " + e.toString());
 		}		
 		
 	}//freeResource
@@ -61,7 +61,7 @@ public class MemberDAO {
 			return pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			System.out.println("insertMember메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("insertMember()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -87,7 +87,7 @@ public class MemberDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("idCheck메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("idCheck()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -117,7 +117,7 @@ public class MemberDAO {
 				return -2;
 			}
 		} catch (Exception e) {
-			System.out.println("userCheck메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("userCheck()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -193,7 +193,7 @@ public class MemberDAO {
 			}
 
 		} catch (Exception e) {
-			System.out.println("updateMember메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("updateMember()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -228,7 +228,7 @@ public class MemberDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("updatePassword메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("updatePassword()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}
@@ -262,7 +262,7 @@ public class MemberDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("deleteMember메소드 내부에서 예외발생 : " + e.toString());
+			System.out.println("deleteMember()메소드 내부에서 예외발생 : " + e.toString());
 		} finally {
 			freeResource();
 		}

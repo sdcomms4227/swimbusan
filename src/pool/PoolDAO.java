@@ -35,7 +35,7 @@ public class PoolDAO {
 			if (rs != null)
 				rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("freeResource()메소드 내부에서 예외발생 : " + e.toString());
 		}
 	}
 	
@@ -214,15 +214,6 @@ public class PoolDAO {
 	public int updatePool(PoolBean poolBean) {
 		String sql = "";
 		
-		System.out.println(poolBean.getPoolName());
-		System.out.println(poolBean.getPoolZipcode());
-		System.out.println(poolBean.getPoolAddress1());
-		System.out.println(poolBean.getPoolAddress2());
-		System.out.println(poolBean.getPoolTel());
-		System.out.println(poolBean.getPoolUrl());
-		System.out.println(poolBean.getPoolContent());
-		System.out.println(poolBean.getPoolNum());
-
 		try {			
 			conn = getConnection();
 			sql = "update pool set poolName=?, poolZipcode=?, poolAddress1=?, poolAddress2=?, poolTel=?, poolUrl=?, poolContent=? where poolNum=?";					
