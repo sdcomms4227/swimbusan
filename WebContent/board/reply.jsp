@@ -181,21 +181,24 @@
 					url : "<%=contextPath%>/replyDeleteServlet",
 					data : {replyDeleteInfo : _replyDeleteInfo},
 					success : function(data, status){
-						var str = "<td class='alert alert-danger text-center' colspan='3'>댓글이 삭제되었습니다.</td>";						
-						$("#reply" + replyNum).html(str).fadeOut(1000, function(){
-							$(this).remove();
-							if($(".reply-list-table").find("tr").length == 0){
-								
-								var emptyStr = "";
-								
-								emptyStr += '<tr id="replyEmpty">';
-								emptyStr += '	<td class="py-5 text-center" colspan="3">등록된 댓글이 없습니다.</td>';
-								emptyStr += '</tr>';
-								
-								$(".reply-list-table").append(emptyStr);
-							}
-						});
-						
+						if(data == "success"){
+							var str = "<td class='alert alert-danger text-center' colspan='3'>댓글이 삭제되었습니다.</td>";						
+							$("#reply" + replyNum).html(str).fadeOut(1000, function(){
+								$(this).remove();
+								if($(".reply-list-table").find("tr").length == 0){
+									
+									var emptyStr = "";
+									
+									emptyStr += '<tr id="replyEmpty">';
+									emptyStr += '	<td class="py-5 text-center" colspan="3">등록된 댓글이 없습니다.</td>';
+									emptyStr += '</tr>';
+									
+									$(".reply-list-table").append(emptyStr);
+								}
+							});
+						}else{
+							alert("댓글이 정상적으로 삭제되지 않았습니다.");
+						}
 					},
 					error : function(){
 						alert("통신에러가 발생했습니다.");	
