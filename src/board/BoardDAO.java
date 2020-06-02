@@ -47,6 +47,8 @@ public class BoardDAO {
 			return -2;
 		}else if(boardBean.getBoardPw()==null || boardBean.getBoardPw().equals("")) {
 			return -3;
+		}else if(boardId.equals("gallery") && (boardBean.getBoardFile()==null || boardBean.getBoardFile().equals(""))) {
+			return -4;
 		}else {
 			try {
 				conn = getConnection();

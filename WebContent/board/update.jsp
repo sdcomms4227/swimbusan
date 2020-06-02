@@ -129,7 +129,7 @@
 									}
 								%>
 								<div class="custom-file">
-									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" onchange="checkFile(this)" />
+									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" onchange="checkFile(this);readURL(this, 'image')" />
 									<label class="custom-file-label" for="boardFile">Choose file</label>
 								</div>
 							</td>
@@ -160,13 +160,24 @@
 								<%
 									if(updateBoardFile!=null && !updateBoardFile.equals("")){
 								%>
-									<p><%=updateBoardFile%></p>
+									<input type="hidden" name="oldFile" value="<%=updateBoardFile%>" />
+									<p>
+										<%
+											String[] fileTypes = updateBoardFile.split("\\.");
+											if(fileTypes[1].equals("jpg") || fileTypes[1].equals("png")){
+										%>
+											<img src="<%=contextPath%>/file/<%=updateBoardFile%>" class="mr-2" style="width:60px" />
+										<%
+											}
+										%>
+										<%=updateBoardFile%>
+									</p>
 									<p class="alert alert-danger" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
 								<%
 									}
 								%>
 								<div class="custom-file">
-									<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="checkFile(this)" />
+									<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="checkFile(this);readURL(this)" />
 									<label class="custom-file-label" for="boardFile">Choose file</label>
 								</div>
 							</td>
@@ -189,12 +200,42 @@
 		$(document).ready(function() {
 			bsCustomFileInput.init()
 		})
+		
 		function checkFile(obj){
-			if($(obj).parent().prev().hasClass("alert")){
+			if($(obj).parent().siblings(".alert")){
 				if($(obj).val().length > 0){
-					$(obj).parent().prev().fadeIn();
+					$(obj).parent().siblings(".alert").fadeIn();
 				}else{
-					$(obj).parent().prev().hide();
+					$(obj).parent().siblings(".alert").hide();
+				}
+			}
+		}
+
+		function readURL(obj, allowType){
+			var $preview  = $(obj).parent().siblings(".preview");
+
+			if($preview.length){
+				$preview.remove();
+			}
+			
+			if(obj.files && obj.files[0]){
+				var fileType = obj.files[0].type.split("/")[0];
+				
+				if(fileType=="image"){
+					$preview = $("<div class='preview' />");
+					$preview.appendTo($(obj).parent().parent());
+					
+					var reader = new FileReader();				
+					reader.readAsDataURL(obj.files[0]);
+					
+					reader.onload = function(ProgressEvent){
+						$preview.css("background-image", "url(" + ProgressEvent.target.result + ")");
+					}
+				}else{
+					if(allowType=="image"){
+						alert("이미지 파일만 첨부하실 수 있습니다.");
+						obj.value = "";
+					}
 				}
 			}
 		}

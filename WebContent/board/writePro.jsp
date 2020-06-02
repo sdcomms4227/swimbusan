@@ -95,6 +95,10 @@
 						fileNameTemp += fileName;
 						boardBean.setBoardFile(fileNameTemp);
 					}
+					
+					if(fileNameTemp==null != fileNameTemp.equals("")){
+
+					}
 				}//if
 				
 			}//if
@@ -137,6 +141,13 @@
 %>
 	<script>
 		alert("비밀번호를 입력해주세요.");
+		history.back();
+	</script>
+<%
+	}else if(result == -4){
+%>
+	<script>
+		alert("이미지를 첨부해주세요.");
 		history.back();
 	</script>
 <%

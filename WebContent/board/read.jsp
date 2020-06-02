@@ -128,7 +128,7 @@
 				</tr>
 				<%
 					if(readBoardFile!=null && !readBoardFile.equals("")){
-						if(boardId.equals("gallery")){						
+						if(boardId.equals("gallery")){
 							String[] fileItems = readBoardFile.split(",");
 							for(int i=0;i<fileItems.length;i++){
 				%>
@@ -147,6 +147,14 @@
 					<tr>
 						<th class="align-middle">첨부파일</th>
 						<td colspan="5">
+							<%
+								String[] fileTypes = readBoardFile.split("\\.");
+								if(fileTypes[1].equals("jpg") || fileTypes[1].equals("png")){
+							%>
+								<img src="<%=contextPath%>/file/<%=readBoardFile%>" class="mr-2" style="width:60px" />
+							<%
+								}
+							%>
 							<%=readBoardFile%>
 							<a href="<%=contextPath%>/download.do?fileName=<%=readBoardFile%>" class="btn btn-sm btn-info ml-2">다운로드</a>
 						</td>
