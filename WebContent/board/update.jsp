@@ -124,12 +124,11 @@
 										<img src="<%=contextPath%>/file/<%=fileItems[i]%>" class="mr-2" style="width:60px" />
 										<%=fileItems[i]%>
 									</p>
-									<p class="alert alert-danger" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
 								<%
 									}
 								%>
 								<div class="custom-file">
-									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" onchange="checkFile(this);readURL(this, 'image')" />
+									<input class="custom-file-input" type="file" name="boardFile<%=i+1%>" id="boardFile<%=i+1%>" onchange="imgPreview(this, 'image');imgCheck(this)" />
 									<label class="custom-file-label" for="boardFile">Choose file</label>
 								</div>
 							</td>
@@ -172,12 +171,11 @@
 										%>
 										<%=updateBoardFile%>
 									</p>
-									<p class="alert alert-danger" style="display:none">파일첨부 시 기존 첨부파일 정보가 삭제됩니다.</p>
 								<%
 									}
 								%>
 								<div class="custom-file">
-									<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="checkFile(this);readURL(this)" />
+									<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="imgPreview(this);imgCheck(this)" />
 									<label class="custom-file-label" for="boardFile">Choose file</label>
 								</div>
 							</td>
@@ -196,49 +194,12 @@
 	</section>
 	<jsp:include page="/include/footer.jsp" />
 	<script src="<%=contextPath%>/js/bs-custom-file-input.js"></script>
+	<script src="<%=contextPath%>/js/image-preview.js"></script>
+	<script src="<%=contextPath%>/js/image-check.js"></script>
 	<script>
 		$(document).ready(function() {
 			bsCustomFileInput.init()
 		})
-		
-		function checkFile(obj){
-			if($(obj).parent().siblings(".alert")){
-				if($(obj).val().length > 0){
-					$(obj).parent().siblings(".alert").fadeIn();
-				}else{
-					$(obj).parent().siblings(".alert").hide();
-				}
-			}
-		}
-
-		function readURL(obj, allowType){
-			var $preview  = $(obj).parent().siblings(".preview");
-
-			if($preview.length){
-				$preview.remove();
-			}
-			
-			if(obj.files && obj.files[0]){
-				var fileType = obj.files[0].type.split("/")[0];
-				
-				if(fileType=="image"){
-					$preview = $("<div class='preview' />");
-					$preview.appendTo($(obj).parent().parent());
-					
-					var reader = new FileReader();				
-					reader.readAsDataURL(obj.files[0]);
-					
-					reader.onload = function(ProgressEvent){
-						$preview.css("background-image", "url(" + ProgressEvent.target.result + ")");
-					}
-				}else{
-					if(allowType=="image"){
-						alert("이미지 파일만 첨부하실 수 있습니다.");
-						obj.value = "";
-					}
-				}
-			}
-		}
 	</script>
 </body>
 </html>

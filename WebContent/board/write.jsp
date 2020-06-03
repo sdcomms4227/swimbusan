@@ -104,7 +104,7 @@
 						</th>
 						<td>
 							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile1" id="boardFile1" onchange="readURL(this, 'image')" />
+								<input class="custom-file-input" type="file" name="boardFile1" id="boardFile1" onchange="imgPreview(this, 'image')" />
 								<label class="custom-file-label" for="boardFile1">Choose file</label>
 							</div>
 						</td>
@@ -115,8 +115,8 @@
 						</th>
 						<td>
 							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile2" id="boardFile2" onchange="readURL(this, 'image')" />
-								<label class="custom-file-label" for="boardFile1">Choose file</label>
+								<input class="custom-file-input" type="file" name="boardFile2" id="boardFile2" onchange="imgPreview(this, 'image')" />
+								<label class="custom-file-label" for="boardFile2">Choose file</label>
 							</div>
 						</td>
 					</tr>
@@ -126,8 +126,8 @@
 						</th>
 						<td>
 							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile3" id="boardFile3" onchange="readURL(this, 'image')" />
-								<label class="custom-file-label" for="boardFile1">Choose file</label>
+								<input class="custom-file-input" type="file" name="boardFile3" id="boardFile3" onchange="imgPreview(this, 'image')" />
+								<label class="custom-file-label" for="boardFile3">Choose file</label>
 							</div>
 						</td>
 					</tr>
@@ -140,7 +140,7 @@
 						</th>
 						<td>
 							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="readURL(this)" />
+								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="imgPreview(this)" />
 								<label class="custom-file-label" for="boardFile">Choose file</label>
 							</div>
 						</td>
@@ -159,39 +159,11 @@
 	</section>
 	<jsp:include page="/include/footer.jsp" />
 	<script src="<%=contextPath%>/js/bs-custom-file-input.js"></script>
+	<script src="<%=contextPath%>/js/image-preview.js"></script>
 	<script>
 		$(document).ready(function() {
 			bsCustomFileInput.init()
 		})
-		
-		function readURL(obj, allowType){
-			var $preview  = $(obj).parent().siblings(".preview");
-
-			if($preview.length){
-				$preview.remove();
-			}
-			
-			if(obj.files && obj.files[0]){
-				var fileType = obj.files[0].type.split("/")[0];
-				
-				if(fileType=="image"){
-					$preview = $("<div class='preview' />");
-					$preview.appendTo($(obj).parent().parent());
-					
-					var reader = new FileReader();				
-					reader.readAsDataURL(obj.files[0]);
-					
-					reader.onload = function(ProgressEvent){
-						$preview.css("background-image", "url(" + ProgressEvent.target.result + ")");
-					}
-				}else{
-					if(allowType=="image"){
-						alert("이미지 파일만 첨부하실 수 있습니다.");
-						obj.value = "";
-					}
-				}
-			}
-		}
 	</script>
 </body>
 </html>

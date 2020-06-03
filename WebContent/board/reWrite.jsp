@@ -94,7 +94,7 @@
 						</th>
 						<td>
 							<div class="custom-file">
-								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" />
+								<input class="custom-file-input" type="file" name="boardFile" id="boardFile" onchange="imgPreview(this)" />
 								<label class="custom-file-label" for="boardFile">Choose file</label>
 							</div>
 						</td>
@@ -110,6 +110,7 @@
 	</section>
 	<jsp:include page="/include/footer.jsp" />
 	<script src="<%=contextPath%>/js/bs-custom-file-input.js"></script>
+	<script src="<%=contextPath%>/js/image-preview.js"></script>
 	<script>
 		$(document).ready(function() {
 			bsCustomFileInput.init()
