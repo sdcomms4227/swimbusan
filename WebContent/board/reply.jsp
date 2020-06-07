@@ -121,6 +121,12 @@
 			var userName = "<%=userName%>";
 			var replyContent = document.replyform.replyContent.value;
 			
+			if(replyContent.length == 0){
+				alert("댓글 내용을 입력해주세요.");
+				document.replyform.replyContent.focus();
+				return;
+			}
+			
 			var _replyInfo = '{"boardId":"'+boardId+'","boardNum":"'+boardNum+'","userId":"'+userId+'","userName":"'+userName+'","replyContent":"'+replyContent+'"}';
 						
 			$.ajax({
@@ -153,6 +159,8 @@
 					str += '</tr>';
 					
 					$(".reply-list-table").append(str);
+					
+					$("#replyContent").val("");
 					
 					if($("#replyEmpty")){
 						$("#replyEmpty").remove();
