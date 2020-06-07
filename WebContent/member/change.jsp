@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<hr />
-		<form name="changeform" class="changeform" action="changePro.jsp" method="post">
+		<form name="changeform" class="changeform" action="changePro.jsp" method="post" onsubmit="return changeSubmit()">
 			<fieldset class="my-5">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
@@ -45,5 +45,13 @@
 		</form>
 	</section>
 	<jsp:include page="../include/footer.jsp" />
+	<script>
+		function changeSubmit() {
+			if (document.changeform.newPw.value != document.changeform.newPw2.value) {
+				alert("새 비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

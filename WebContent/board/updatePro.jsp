@@ -37,9 +37,11 @@
 		String fileName = "";
 		String fieldString = "";
 		String fileNameTemp = "";
+		String oldFile = "";
 		String oldFile1 = "";
 		String oldFile2 = "";
 		String oldFile3 = "";
+		String newFile = "";
 		String newFile1 = "";
 		String newFile2 = "";
 		String newFile3 = "";
@@ -70,6 +72,8 @@
 				}else if(fieldName.equals("boardNum")){
 					boardNum = fieldString;
 					boardBean.setBoardNum(Integer.parseInt(fieldString));
+				}else if(fieldName.equals("oldFile")){
+					oldFile = fieldString;
 				}else if(fieldName.equals("oldFile1")){
 					oldFile1 = fieldString;
 				}else if(fieldName.equals("oldFile2")){
@@ -99,7 +103,7 @@
 					fileItem.write(uploadFile);
 
 					if(fieldName.equals("boardFile")){
-						boardBean.setBoardFile(fileName);
+						newFile = fileName;
 					}else if(fieldName.equals("boardFile1")){
 						newFile1 = fileName;
 					}else if(fieldName.equals("boardFile2")){
@@ -114,7 +118,13 @@
 			}//if
 			
 		}//for
-				
+
+		if(!newFile.equals("")){
+			fileNameTemp += newFile;
+		}else if(!oldFile.equals("")){
+			fileNameTemp += oldFile;
+		}
+		
 		if(!newFile1.equals("")){
 			fileNameTemp += newFile1;
 		}else if(!oldFile1.equals("")){
@@ -126,7 +136,7 @@
 				fileNameTemp += ",";
 			}
 			fileNameTemp += newFile2;
-		}else if(!oldFile1.equals("")){
+		}else if(!oldFile2.equals("")){
 			if(!fileNameTemp.equals("")){
 				fileNameTemp += ",";
 			}
@@ -138,7 +148,7 @@
 				fileNameTemp += ",";
 			}
 			fileNameTemp += newFile3;
-		}else if(!oldFile1.equals("")){
+		}else if(!oldFile3.equals("")){
 			if(!fileNameTemp.equals("")){
 				fileNameTemp += ",";
 			}

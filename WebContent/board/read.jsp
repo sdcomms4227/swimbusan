@@ -176,7 +176,7 @@
 				<button type="button" class="btn btn-danger" onclick="location.href='delete.jsp?pageNum=<%=pageNum%>&boardNum=<%=readNum%>'">삭제</button>
 				<%
 					}
-					if (userId != null && !boardId.equals("gallery")) {
+					if (userId != null && !boardId.equals("gallery") && !boardId.equals("info")) {
 				%>
 				<button type="button" class="btn btn-primary" onclick="document.reWriteform.submit()">답글쓰기</button>
 				<%

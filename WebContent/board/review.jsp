@@ -84,9 +84,9 @@
 								int beanRCount = boardBean.getReplyCount();
 					%>
 						<tr onclick="location.href='read.jsp?boardNum=<%=beanNum%>&pageNum=<%=pageNum%>'" style="cursor: pointer">
-							<td class="d-none d-lg-table-cell"><%=beanNum%></td>
-							<td class="d-none d-lg-table-cell"><%=beanCategory%></td>
-							<td class="text-left">
+							<td class="d-none d-lg-table-cell align-middle"><%=beanNum%></td>
+							<td class="d-none d-lg-table-cell align-middle wbka"><%=beanCategory%></td>
+							<td class="align-middle text-left">
 								<%
 									int marginLeft = 0;
 									if (beanRe_lev > 0) {
@@ -124,9 +124,9 @@
 									<%=beanName%> | <%=beanDate%> | <%=beanCount%>
 								</small>
 							</td>
-							<td class="d-none d-lg-table-cell"><%=beanName%></td>
-							<td class="d-none d-lg-table-cell"><%=beanDate%></td>
-							<td class="d-none d-lg-table-cell"><%=beanCount%></td>
+							<td class="d-none d-lg-table-cell align-middle"><%=beanName%></td>
+							<td class="d-none d-lg-table-cell align-middle"><%=beanDate%></td>
+							<td class="d-none d-lg-table-cell align-middle"><%=beanCount%></td>
 						</tr>
 					<%
 							}
