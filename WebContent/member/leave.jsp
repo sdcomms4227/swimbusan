@@ -27,7 +27,7 @@
 			</fieldset>
 			<div class="text-center my-5">
 				<button type="button" onclick="history.back()" class="btn btn-secondary">취소</button>
-				<button type="submit" class="btn btn-primary">회원탈퇴</button>
+				<button type="submit" class="btn btn-danger">회원탈퇴</button>
 			</div>
 		</form>
 	</section>

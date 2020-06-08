@@ -62,7 +62,7 @@
 							<div class="caption-inner text-center">
 								<div>
 									<p class="h4"><%=beanSubject%></p>
-									<small><%=beanName%></small>
+									<small><%=beanName%></small><br />
 									<small><%=beanDate%></small>
 								</div>
 							</div>
