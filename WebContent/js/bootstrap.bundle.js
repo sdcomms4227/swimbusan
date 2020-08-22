@@ -3584,7 +3584,7 @@
    * Popper.js uses a set of 9 modifiers to provide all the basic functionalities
    * needed by the library.
    *
-   * Usually you don't want to override the `order`, `fn` and `onLoad` props.
+   * Usually you don't want to override the productOrder, `fn` and `onLoad` props.
    * All the other properties are configurations that could be tweaked.
    * @namespace modifiers
    */
@@ -3839,7 +3839,7 @@
      * so that `applyStyle` modifier can apply it. This separation is useful
      * in case you need to replace `applyStyle` with a custom implementation.
      *
-     * This modifier has `850` as `order` value to maintain backward compatibility
+     * This modifier has `850` as productOrder value to maintain backward compatibility
      * with previous versions of Popper.js. Expect the modifiers ordering method
      * to change in future major versions of the library.
      *

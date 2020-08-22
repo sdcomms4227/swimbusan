@@ -35,7 +35,7 @@
 	    </div>
 	</section>
 	<jsp:include page="../include/footer.jsp" />
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca35d38c74be43dc75518f378804191&libraries=services"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca35d38c74be43dc75518f378804191&libraries=services"></script>
 	<script>
 	// 마커를 담을 배열입니다
 	var markers = [];
