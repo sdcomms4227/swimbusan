@@ -52,7 +52,7 @@
 		</div>
 		<!-- 게시판 -->
 		<article class="mt-3">
-			<table class="table read-table">
+			<table class="table read-table border-bottom">
 				<colgroup>
 					<col style="width: 70px" />
 					<col />
